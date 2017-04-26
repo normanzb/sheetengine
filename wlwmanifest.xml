@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<manifest xmlns="http://schemas.microsoft.com/wlw/manifest/weblog">
+    <options>
+        <clientType>Metaweblog</clientType>
+        <supportsPostAsDraft>No</supportsPostAsDraft>
+        <supportsFileUpload>Yes</supportsFileUpload>
+        <supportsCustomDate>No</supportsCustomDate>
+        <supportsCategories>No</supportsCategories>
+        <supportsEmptyTitles>No</supportsEmptyTitles>
+        <supportsScripts>No</supportsScripts>
+        <supportsEmbeds>No</supportsEmbeds>
+        <requiresHtmlTitles>No</requiresHtmlTitles>
+    </options>
+    <weblog>
+        <serviceName>CodePlex</serviceName>
+        <homepageLinkText>View Project</homepageLinkText>
+    </weblog>
+    <views>
+        <default>Normal</default>
+    </views>
+</manifest>

@@ -1,0 +1,10 @@
+<rsd version="1.0">
+  <service>
+    <engineName>CodePlex</engineName>
+    <engineLink>http://www.codeplex.com</engineLink>
+    <homePageLink>http://sheetengine.codeplex.com/</homePageLink>
+    <apis>
+      <api name="MetaWeblog" blogID="sheetengine" preferred="true" apiLink="https://www.codeplex.com/site/metaweblog" />
+    </apis>
+  </service>
+</rsd>

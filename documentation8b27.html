@@ -1,0 +1,667 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="" prefix="og: http://ogp.me/ns# profile: http://ogp.me/ns/profile#">
+    
+    
+    
+    
+
+    
+    
+<!-- Mirrored from sheetengine.codeplex.com/documentation?referringTitle=Home by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Apr 2017 15:19:28 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <meta id="CompatabilityMode" http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="http://download-codeplex.sec.s-msft.com/css/v21050/i2036743/StyleSheet.ashx" id="MasterCss" rel="stylesheet" type="text/css" />
+        <link rel="SHORTCUT ICON" href="http://www.codeplex.com/favicon.ico" />
+        <title>sheetengine - Isometric HTML5 JavaScript Display Engine - Documentation</title>
+        
+        <!--
+        Third party scripts and code linked to or referenced from this website are licensed to you by the parties that own such code,
+        not by Microsoft.  See ASP.NET Ajax CDN Terms of Use – http://www.asp.net/ajaxlibrary/CDN.ashx.
+        -->
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js" type="text/javascript"></script>
+        
+        <script type="text/javascript">
+            if (typeof jQuery === 'undefined') {
+                document.write(unescape("%3Cscript src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+            }
+        </script>
+
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.6/jquery-ui.min.js" type="text/javascript"></script>
+        
+        <script type="text/javascript">
+            if (typeof jQuery.ui === 'undefined') {
+                document.write(unescape("%3Cscript src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js' type='text/javascript'%3E%3C/script%3E"));
+            }
+        </script>
+
+        
+            <script type="text/javascript">
+                var appInsights=window.appInsights||function(config){
+                    function s(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},r=document,f=window,e="script",o=r.createElement(e),i,u;for(o.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(e)[0].parentNode.appendChild(o),t.cookie=r.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)s("track"+i.pop());return config.disableExceptionTracking||(i="onerror",s("_"+i),u=f[i],f[i]=function(config,r,f,e,o){var s=u&&u(config,r,f,e,o);return s!==!0&&t["_"+i](config,r,f,e,o),s}),t
+                }({
+                    instrumentationKey:"3a5c29be-06e6-465e-862f-c10a5d93d3a2"
+                });
+    
+                window.appInsights=appInsights;
+                appInsights.trackPageView();
+            </script>
+        
+    <style type="text/css">.SideBar, .SideBarPadding{display:none;}.MainContent{width:auto;}.SiteContentTable{width:100%;}</style>
+    <style id="ProjectStyles" type="text/css">
+        .SiteHeader, .SiteHeaderLeft {
+            height:45px !important;
+            overflow:hidden;
+        }
+        .SiteContent 
+        {
+            padding: 0 0 1em 0;
+            margin-top:0;
+            min-height:225px;
+            border-right: 1px solid lightgrey;
+            border-left: 1px solid lightgrey;
+            border-bottom: 1px solid lightgrey;
+        }
+        .IE table.MinWidthContent
+        {
+	        table-layout: auto !important;	
+        }
+    </style>
+    
+    
+    <style type="text/css">.ProjectContent{padding:0;}</style>
+    <style type="text/css">
+        .WikiHolder
+        {
+            margin: 0 1em 0 0;
+        }
+        #WikiContent
+        {
+            margin-top: 15px;
+        }
+        #WikiBreadCrumbs
+        {
+            margin: 0.25em 0 1em 0;
+        }
+        .SecondarySearchButton 
+        {
+            margin:0 0 0 -0.6em;
+        }
+        .FF .SecondarySearchButton 
+        {
+            margin:-0.1em 0 0 -0.5em;
+            height: 22px;
+        }
+        .IE .SecondarySearchButton
+        {
+            width: 22px;
+            height: 22px;
+        }
+    </style>
+    
+    
+        <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+    
+    
+    
+    <meta id="WTProjectName" name="WT.pi" content="sheetengine"/>
+    
+
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href='http://sheetengine.codeplex.com/rsd' />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" title="WLWManifest" href='http://sheetengine.codeplex.com/wlwmanifest.xml' />
+    
+    
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine" url="http://sheetengine.codeplex.com/project/feeds/rss"/>
+    
+        
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Discussions" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fforum%2fsheetengine"/>
+        
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Issues" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fworkitem%2fsheetengine"/>
+        
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Downloads" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2frelease%2fsheetengine"/>
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Reviews" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2freview%2fsheetengine"/>
+        
+    
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Source&#32;code" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fsourcecontrol%2fsheetengine"/>
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Wiki" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fwiki%2fsheetengine"/>
+    
+        
+    
+        <meta content="summary" name="twitter:card" /><meta content="@CodePlex" name="twitter:site" /><meta content="http://sheetengine.codeplex.com/documentation?referringTitle=Home&amp;ProjectName=sheetengine" name="twitter:url" /><meta content="sheetengine - Isometric HTML5 JavaScript Display Engine" name="twitter:title" /><meta content="Sheetengine is an HTML5 canvas based isometric display engine for JavaScript. It features textures, z-ordering, shadows, intersecting sheets, object movements." name="twitter:description" /><meta content="http://www.codeplex.com/Images/codeplex.png" name="twitter:image" /><meta content="CodePlex" property="og:site_name" /><meta content="http://sheetengine.codeplex.com/documentation?referringTitle=Home&amp;ProjectName=sheetengine" property="og:url" /><meta content="object" property="og:type" /><meta content="sheetengine - Isometric HTML5 JavaScript Display Engine" property="og:title" /><meta content="Sheetengine is an HTML5 canvas based isometric display engine for JavaScript. It features textures, z-ordering, shadows, intersecting sheets, object movements." property="og:description" /><meta content="http://www.codeplex.com/Images/codeplex.png" property="og:image" />
+        
+
+    </head>
+    
+    <body>
+        <script src="http://download-codeplex.sec.s-msft.com/scripts/v21050/i5/ScriptLoader.ashx" type="text/javascript"></script>
+        <form id="aspnetForm" autocomplete="off" method="POST" enctype="multipart/form-data">
+            <input name="__RequestVerificationToken" type="hidden" value="WRZLvLk_svEaFseFrxg1ar4KrZoojgXr5wW6y91ZLjzVOaxTIf81y7dxhIhZca4mv0PEYshRUo03haNy8xvJMhvOk7w9jP7EbWvBKW_z4HtH1fVEsFxkvz6uajZGFudQd1nCgQ2" />
+            
+            <div id="UpdateProgressPanel" class="loading_animation" style="display:none;">
+                <div class="row">
+                    <h2 class="anim_h2">
+                        <span id="UpdateProgressText">Updating...</span>
+                        <span id="animatedLoadingIconContainer">
+                            <img id="animatedLoadingIcon" src="http://download-codeplex.sec.s-msft.com/Images/v21050/loading_animation.gif" class="anim_img"/>
+                        </span>
+                    </h2>
+                </div>
+            </div>
+            
+            <div style="display:none;">
+                
+                <img id="BlankImage" style="width:0;height:0;" src="http://download-codeplex.sec.s-msft.com/Images/v21050/blank.png" onload="self.logoImageLoaded=true;"/>
+
+                <script language="javascript" type="text/javascript">
+                    var date = new Date();
+                    var timezoneOffset = date.getTimezoneOffset() / 60 * -1;
+                    var timezoneOffsetCookie = getCookie("TimezoneOffset");
+                    var firstTimeSetTimezoneCookie = false;
+
+                    if (timezoneOffsetCookie == null || timezoneOffsetCookie != timezoneOffset) {
+                        firstTimeSetTimezoneCookie = true;
+                        document.cookie = "TimezoneOffset=" + timezoneOffset + '; domain=.codeplex.com;expires=Thu, 26 Apr 2018 08:19:24 UTC';
+                    }
+                </script>
+            </div>
+            
+            
+            <div id="banner">
+                <div id="message">
+                    <strong>CodePlex is shutting down.</strong><span>  Read about the shutdown plan, including archive and migration information, on <a href="https://aka.ms/codeplex-announcement">Brian Harry's blog.</a></span>
+                </div>
+            </div>
+            
+
+            <div id="header">
+                <div id="header_wrap" class="row">
+                    <p id="logo"><a href="http://www.codeplex.com/">Code<span class="semi">Plex</span></a><span id="tagline">Project Hosting for Open Source Software</span></p>
+                    
+
+<ul id="nav">
+
+    <li><a href="http://sheetengine.codeplex.com/site/register/new" id="registerLink" class="ZoomFix">Register</a></li>
+    <li ><a class="SignInLink" href="https://www.codeplex.com/site/login?RedirectUrl=http%3a%2f%2fsheetengine.codeplex.com%2fdocumentation%3freferringTitle%3dHome" id="signInLink">Sign In</a></li>
+  
+    <li class="last"><a class="rss_site_icon" href="http://www.codeplex.com/site/feeds/rss" type="application/rss+xml" rel="Alternate" title="CodePlex Site Activity"></a></li>
+</ul>
+                    <input id="searchsite" name="searchsite" maxlength="500" type="text" value="" /><span id="search_mag"><a id="submitSearch" name="submitSearch" class="magnify" title="Search" href="#"></a></span>
+                    <script>
+	$(document).ready(function() {
+    var searchButton = $('#submitSearch'),
+        searchBar = $('#searchsite');
+
+    // Register our own handler for the search event while we wait for the SearchBox script to load.
+    searchButton.bind('click.backupSearchBox', doProjectSearch);
+    searchBar.bind('keypress.backupSearchBox', function(e) { if ($keyCode(e) === 13) { doProjectSearch(); return false; } });
+
+    function cleanupSearchEvents() {
+        // If the SearchBox was loaded, unregister our handlers.
+        if (epx_loaded) {
+            searchButton.unbind('.backupSearchBox');
+            searchBar.unbind('.backupSearchBox');
+        }
+    }
+
+    $loadScript('http://i4.services.social.microsoft.com/search/Widgets/SearchBox.jss?appid=1000&amp;scopeid=1&amp;boxId=searchsite&amp;btnId=submitSearch&amp;watermark=Search%20all%20projects&amp;overrideWatermark=true&amp;searchLocation=%2fsite%2fsearch&amp;allowEmptySearch=true&amp;focusOnInit=False&amp;minimumTermLength=3', cleanupSearchEvents);
+})
+function doProjectSearch() {
+    
+    var url = '/site/search';
+
+    //If search term is not same as watermark
+    if($('#searchsite').val() != 'Search all projects')    
+    {        
+        url = url + '?query=' + encodeURIComponent($('#searchsite').val());
+    }
+
+    
+    var callback = '';
+    if (callback.length > 0 && eval('typeof ' + callback) != 'undefined')
+        url += eval(callback + '()');
+
+    window.location.href = url;
+    return false;
+}
+</script>
+                </div>
+            </div>
+            
+            <div id="wrap">
+                
+    <div id="sub_heading" class="row">
+        
+        <div id="ProjectHeader">
+            <div id="project_title_row" class="row">
+                <div id="project_logo">
+                    
+    
+    <div id="project_logo_and_text">
+        <div class="logo_left">
+            <a href="http://sheetengine.codeplex.com/"><img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=sheetengine&amp;DownloadId=421581&amp;Build=21050" alt="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine" /></a>
+        </div>
+        <h1 class="text_right"><div><a href="http://sheetengine.codeplex.com/" id="ProjectTitle4">sheetengine - Isometric HTML5 JavaScript Display Engine</a></div></h1>
+    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <div id="ProjectDetailsDiv">
+            
+        </div>
+		<div class="clear"></div>
+        
+
+<ul id="page_box_links">
+	<li id="homeTabCell" style="width: 63px;"><a id="homeTab" href="http://sheetengine.codeplex.com/" class="box_home">home</a><div></div></li>
+    
+	<li id="sourceTabCell" style="width:113px;"><a id="sourceTab" href="http://sheetengine.codeplex.com/SourceControl/latest" class="box_source">source code</a><div></div></li>
+    
+	<li id="releasesTabCell" style="width:105px;"><a id="releasesTab" href="http://sheetengine.codeplex.com/releases" class="box_downloads">downloads</a><div></div></li>
+    
+    <li id="documentationTabCell" style="width:143px;"><a id="documentationTab" href="http://sheetengine.codeplex.com/documentation" class="documentation_active">documentation</a><div></div></li>
+    
+	<li id="discussionTabCell" style="width:112px;"><a id="discussionTab" href="http://sheetengine.codeplex.com/discussions" class="box_discussions">discussions</a><div></div></li>
+    
+	<li id="workItemsTabCell" style="width:70px;"><a id="workItemsTab" href="http://sheetengine.codeplex.com/workitem/list/basic" class="box_issue">issues</a><div></div></li>
+    
+	<li id="peopleTabCell" style="width:70px;"><a id="peopleTab" href="http://sheetengine.codeplex.com/team/view" class="box_people">people</a><div></div></li>
+	<li id="licenseTabCell" style="width:70px;"><a id="licenseTab" href="http://sheetengine.codeplex.com/license" class="box_license">license</a><div></div></li>
+    
+    <span class="stretch"></span>
+</ul>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#page_box_links').applyLastClassToList();
+    });
+</script>
+		    <div class="clear"></div>
+            
+    <div id="DeleteWikiPagePanel" class="modal" style="display: none;">
+        <div class="row">
+            <h2>Are you Sure? <a href="javascript:return false;" class="close">X</a></h2>
+        </div>
+        <div class="modal_info">
+            By clicking Delete, all history, comments and attachments for this page will be deleted and cannot be restored.
+            <div class="modal_buttons">
+                <input type="button" id="CancelButton" class="cancel" value="Cancel" />
+                <input type="button" id="DeleteButton" class="ok" value="Delete" />
+            </div>
+            <div class="ClearBoth"></div>
+        </div>
+    </div>
+    
+    <div id="homepage_sub_menu">
+		<ul class="page_box_sublinks">
+            
+                <li><a id="pageInfoHyperLink" href="http://sheetengine.codeplex.com/wiki/PageInfo?title=Documentation" title="Page information for Documentation page.">Page Info</a></li>
+            
+            <li class="last"><a id="changesHyperlink" href="http://sheetengine.codeplex.com/wikipage/history" title="View change history for all pages.">Change History (all pages)</a></li>
+		</ul>
+        
+
+<div>
+    
+    <div id="actionBar" class="action_bar">
+        <ul id="actionBar_ul" class="actionBar_sublinks subtab_right" style="vertical-align: middle;">
+
+            
+
+                <li id="li_actionbar_followproject" data-action-id="actionbar_followproject" data-action-type="None" class="actionBar_sublinks" data-options-id="673d53f9-aa51-4b92-a65f-bd4d187aa471">
+                
+                    <script class="options" defer="defer" id="673d53f9-aa51-4b92-a65f-bd4d187aa471" type="application/json">{"projectName":"sheetengine","loggedInUser":"","returnUrl":"https://www.codeplex.com/site/login?RedirectUrl=http%3a%2f%2fsheetengine.codeplex.com%2fdocumentation%3freferringTitle%3dHome%26ProjectName%3dsheetengine"}</script> 
+                    
+                    <div class="actionBar_custom_content"></div>
+
+                    <a href="#" id="actionbar_followproject" title="" class="action_bar_item_link">
+                        <img id="img_actionbar_followproject" class="action_bar_item_image" src="http://download-codeplex.sec.s-msft.com/Images/v21050/actionbar_follow.png" style="vertical-align: middle" />
+                        
+                    </a>
+
+                </li>
+
+            
+
+                <li id="li_actionbar_subscribe" data-action-id="actionbar_subscribe" data-action-type="PopUp" class="actionBar_sublinks" data-options-id="c72acdad-33ab-4689-ab4a-f590a01f2b67">
+                
+                    <script class="options" defer="defer" id="c72acdad-33ab-4689-ab4a-f590a01f2b67" type="application/json">{}</script> 
+                    
+                    <div class="actionBar_custom_content">
+
+<div id="rssHoverDiv" class="HoverPanel LeftHoverWidth" style="display: none">
+        <ul id="3_FeedsPanel" class="RssFeedsPanel">
+            <li>
+                <a id="ProjectRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss" class="ArrowSmall NoUnderline">All Project Updates</a>
+            </li>
+            
+            <li>
+                <a id="DiscussionRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fforum%2fsheetengine" class="ArrowSmall NoUnderline">Discussions</a>
+            </li>
+            
+            <li>
+                <a id="IssueTrackerRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fworkitem%2fsheetengine" class="ArrowSmall NoUnderline">Issue Tracker</a>
+            </li>
+            
+            <li>
+                <a id="ReleasesRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2frelease%2fsheetengine" class="ArrowSmall NoUnderline">Downloads</a>
+            </li>
+            <li>
+                <a id="ReviewsRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2freview%2fsheetengine" class="ArrowSmall NoUnderline">Reviews</a>
+            </li>
+            
+            <li>
+                <a id="SourceControlRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fsourcecontrol%2fsheetengine" class="ArrowSmall NoUnderline">Source Code</a>
+            </li>
+            <li>
+                <a id="WikiRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fwiki%2fsheetengine" class="ArrowSmall NoUnderline">Wiki &amp; Documentation</a>
+            </li>
+        </ul>
+</div></div>
+
+                    <a href="#" id="actionbar_subscribe" title="Subscribe to project updates in RSS feeds." class="action_bar_item_link">
+                        <img id="img_actionbar_subscribe" class="action_bar_item_image" src="http://download-codeplex.sec.s-msft.com/Images/v21050/actionbar_subscribe.png" style="vertical-align: middle" />
+                        Subscribe
+                    </a>
+
+                </li>
+
+            
+        </ul>
+    </div>
+</div>
+        <div class="clear"></div>
+    </div>
+    
+        
+
+    </div>
+    
+    
+    
+<div id="left_column" class="no_border">
+    
+
+    <div class="WikiHolder">
+
+        
+            <div id="WikiContent" class="WikiContent">
+                
+<div class="wikidoc">
+<h1>Introduction</h1>
+Sheetengine was originally designed to be the display engine for a social building and gaming project called Crossyards. This project allows users to build custom scenes made up of stand-alone sheets - that can be positioned and oriented according to the user&#39;s
+ will - using a basic HTML5 editor interface. To create the editor I was looking for something that was light-weight, cross-browser compatible (HTML5) and could handle isometric projections with the following three features: shadows, z-ordering, intersections.
+ I deliberately chose isometric as I believe real 3D is simply too much for the web and I also wanted to be able to visualize the rendered scenes with extremely performant HTML4 methods (image pyramids) that require the projection output be independent of the
+ camera position. As I introduced custom applications and games in Crossyards the engine soon was somewhat turned into a game engine with extended functionality to support object and camera movements also including collision detection. Since I am a fan of open
+ source I decided to release it under the MIT license, maybe it will be useful for others as well!<br>
+<br>
+<img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=sheetengine&amp;DownloadId=571858" alt="banner.png" title="banner.png"><br>
+<h1>Topics</h1>
+<ul>
+<li><a href="http://sheetengine.codeplex.com/wikipage?title=Creating%20a%20scene&amp;referringTitle=Documentation">Creating a scene</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Using%20custom%20textures&amp;referringTitle=Documentation">Using custom textures</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Creating%20objects&amp;referringTitle=Documentation">Creating objects</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Moving%20%2f%20rotating%20objects&amp;referringTitle=Documentation">Moving &#47; rotating objects</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Moving%20the%20camera&amp;referringTitle=Documentation">Moving the camera</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Animating%20objects&amp;referringTitle=Documentation">Animating objects</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Hiding%20%2f%20showing%20objects&amp;referringTitle=Documentation">Hiding &#47; showing objects</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Rendering%20with%20zoom&amp;referringTitle=Documentation">Rendering with zoom</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Custom%20view%20transformations&amp;referringTitle=Documentation">Custom view transformations</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Making%20sheets%20transparent&amp;referringTitle=Documentation">Making sheets transparent</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Static%20drawing&amp;referringTitle=Documentation">Static drawing</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Collision%20detection&amp;referringTitle=Documentation">Collision detection</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Selecting%20locations%20and%20objects&amp;referringTitle=Documentation">Selecting locations and objects</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Adjusting%20the%20light%20source&amp;referringTitle=Documentation">Adjusting the light source</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Rendering%20large%20scenes&amp;referringTitle=Documentation">Rendering large scenes</a>
+</li><li><a href="http://sheetengine.codeplex.com/wikipage?title=Rendering%20scenes%20on%20server%20side&amp;referringTitle=Documentation">Rendering scenes on server side</a></li></ul>
+<br>
+<h1>Examples</h1>
+You can download examples from the <a href="http://sheetengine.codeplex.com/releases">
+Downloads</a> page.<br>
+<br>
+<h1>Features</h1>
+<blockquote>
+<h4>Isometric rendering</h4>
+</blockquote>
+<blockquote>The concept of sheetengine is to draw a 3D world with isometric projection by defining sheets. A sheet is basically a (small) rectangular HTML5 canvas that is drawn onto the main canvas using isometric transformations. This means that defining texture
+ of a sheet can be done by simply drawing on the 2D rendering context of the sheet canvas. The engine supports opacity, but shadows will only take fully transparent or opaque pixels into account. Therefore the sheets can take any shape with the help of transparent
+ colors.</blockquote>
+<blockquote>
+<h4>Shadows</h4>
+</blockquote>
+<blockquote>Shadows are generally very important when rendering 3D scenes but when using isometric projections they are crucial. If you don&#39;t draw shadows you are simply unable to tell where the objects are located in space by looking at the rendered image.
+ Sheetengine draws shadows cast by sheets both on the static ground and on other sheets taking fully transparent colors into account. For this a single directional light source is used that can be adjusted in terms of direction and the darkness of drawn shadows.</blockquote>
+<blockquote>
+<h4>Z-ordering</h4>
+</blockquote>
+<blockquote>Sheetengine is not a tile-based display engine: the position of sheets can be arbitrary, therefore z-ordering of sheets is a bit more complex problem than a simple equation. The algorithm used guarantees that sheets will be drawn onto the main canvas
+ in the correct order.</blockquote>
+<blockquote>
+<h4>Intersections</h4>
+</blockquote>
+<blockquote>Since the position of sheets is allowed to be arbitrary, it can easily happen that the z-order of two sheets can not be determined in case they intersect each other. The library will automatically calculate the intersections of sheets and the resulting
+ polygons can be rendered in the correct order. This algorithm is quite resource-intensive so intersection of moving objects and static sheets is disabled by default (objects are usually not allowed to go through sheets anyway) but can be turned on manually.</blockquote>
+<blockquote>
+<h4>Object animation</h4>
+</blockquote>
+<blockquote>SheetObjects are objects made up of sheets. These objects are allowed to be moved/rotated/animated in the scene allowing simple games to be implemented using the library. For every object a temporary canvas is created for rendering - this canvas
+ is used by the engine to update the modified regions only, for optimized performance.</blockquote>
+<blockquote>
+<h4>Collision detection</h4>
+</blockquote>
+<blockquote>Detecting if an object has bumped into a wall or is moving up a stairway is done using a density map. The density map contains points of all sheets in the scene sampled using a specified granularity.</blockquote>
+<blockquote>
+<h4>Rendering customizations</h4>
+</blockquote>
+<blockquote>Many rendering attributes can be customized. Size of sheets and base sheets, colors of shaded sheets and shadows, direction of light source, etc. It is also possible to define your own projection model by providing custom transform functions in
+ case you didn&#39;t like the built-in view.</blockquote>
+<blockquote>
+<h4>Rendering on server-side</h4>
+</blockquote>
+<blockquote>The library is built in a way so that it can be used to render isometric scenes on the server-side using node and node-canvas. This can come very handy if you want to generate images on the server-side to create image pyramids and display isometric
+ scenes in pre-HTML5 browsers (IE8, etc.).</blockquote>
+</div>
+<div></div>
+
+            </div>
+        
+                <p>Last edited <span class="smartDate" title="12/11/2012 10:13:05 PM" LocalTimeTicks="1355292785">Dec 11, 2012 at 10:13 PM</span> by <a id="wikiEditByLink" href="http://www.codeplex.com/site/users/view/dobsonl">dobsonl</a>, version 10</p>
+            
+                <div id="Comments">
+                    
+
+<script type="text/javascript">
+    var commentCount = 0;
+    function addComment() {
+        var input = $('#Comment');
+        input.val($.trim(input.val()));
+        if (MvcValidation_Validate('AddComment')) {
+            CodePlex.UpdateProgress.show();
+            $.post('http://sheetengine.codeplex.com/wikipage/comment', { Comment: input.val(), title: $('#WikiTitle').val() }, function(data, textStatus) {
+                if (textStatus == 'success') {
+                    if(commentCount++ == 0)
+                        $('#wikiCommentsEmpty').empty();
+                    $('#wikiComments').append(data);
+                    input.val('');
+                }
+                CodePlex.UpdateProgress.hide();
+            });
+        }
+    }
+    function deleteComment(id) {
+        if (confirm('Are you sure you want to delete this comment?')) {
+            CodePlex.UpdateProgress.show();
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://sheetengine.codeplex.com/wikipage/comment' + '/' + id,
+                success: function() {
+                    $('#comment' + id).empty();
+                    CodePlex.UpdateProgress.hide();
+                },
+                error: function() { CodePlex.UpdateProgress.hide(); }
+            });
+        }
+    }
+</script>
+
+<div id="CommentsAnchor">
+    <h2>Comments</h2>
+    <div id="wikiComments">
+        
+            <div id="wikiCommentsEmpty">No comments yet.<br /><br /></div>
+        
+    </div>
+    
+        <div id="addComment">
+            <a id="SignInToAddCommentLink" href="https://www.codeplex.com/site/login?RedirectUrl=http%3a%2f%2fsheetengine.codeplex.com%2fdocumentation%3fFocusElement%3dComment">Sign in to add a comment</a>
+        </div>
+    
+</div>
+                </div>
+            
+    </div>
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#deleteWikiHyperLink').click(function () {
+                OpenDialog('#DeleteWikiPagePanel', true, '30em');
+            });
+            $('#DeleteButton').click(function () {
+                OpenDialog('#DeleteWikiPagePanel', false);
+                CodePlex.UpdateProgress.show();
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'http://sheetengine.codeplex.com/documentation',
+                    data: {title: $('#WikiTitle').val()},
+                    success: function (data) {
+                        CodePlex.UpdateProgress.hide();
+                        window.location = data;
+                    },
+                    error: function (data) {
+                        CodePlex.UpdateProgress.hide();
+                    }
+                });
+            });
+            $('#CancelButton').click(function () {
+                OpenDialog('#DeleteWikiPagePanel', false);
+            });
+            
+            
+        });
+    </script>
+</div>
+
+        
+	<div id="right_sidebar">
+        
+
+<input name="" type="text" maxlength="500" id="wiki_search" title="Search Wiki and Documentation"/><a id="SearchButton" class="wiki_magnify" href="#" title="Search Wiki and Documentation"></a>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $('#wiki_search').keypress(function (e) {
+            if (e.keyCode == 13) {
+                wikiSearch();
+                return false;
+            }
+        });
+
+        $('#SearchButton').click(function () {
+            wikiSearch();
+            return false;
+        });
+
+        $('#wiki_search').promptBox('Search Wiki & Documentation');
+
+    });
+    function setWikiCommentTextBoxFocus() {
+        $('#Comment').focus();
+        return false;
+    }
+
+    function wikiSearch() {
+        var $textbox = $('#wiki_search');
+        if($textbox.attr('dirty') != 'true')
+            return;
+        var searchText = encodeURIComponent(jQuery.trim($textbox.val()));
+        if(searchText != null & searchText.length > 0)
+            window.location.href = 'http://sheetengine.codeplex.com/wiki/search?tab=Documentation&SearchText=' + searchText;
+    }
+
+</script>
+
+<script type="text/javascript">
+    var requirementsActionUri = 'http://sheetengine.codeplex.com/documentation/requirements';
+    var requirementsToDelete = [];
+    
+    
+
+    function LoadRequirements(json) {
+        var html = '';
+        if (json === undefined || !json.length) {
+            html = '<div id="NoRequirementsDefined">There are currently no defined requirements.</div>';
+        } else {
+            for (var i = 0; i < json.length; i++) {
+               var requirementType = json[i];
+                html += '<h3>' + requirementType.Caption + '</h3><ul>';
+                for (var j = 0; j < requirementType.Requirements.length; j++) {
+                    var requirement = requirementType.Requirements[j];
+                    html += '<li>' + requirement.DisplayTitle + '</li>';
+                }
+                html += '</ul>';
+            }
+        }
+        
+        $('#RequirementsBody').html(html);
+    }
+
+    $(document).ready(function() {
+        LoadRequirements();
+    });
+</script>
+
+<div id="RequirementsContainer">
+    <h2>
+        System Requirements
+        
+    </h2>
+    <div class="clear"></div>
+    <div id="RequirementsBody"></div>
+</div>
+
+
+    </div>
+
+        
+                
+                <div class="clear"></div>
+                
+                <div id="footer">
+                    <div class="row">
+                        <hr />
+                        <ul>
+                            <li>© 2006-2017 Microsoft</li>
+                            <li><a href="http://www.codeplex.com/site/help">Get Help</a></li>
+                            <li><a href="http://sheetengine.codeplex.com/site/legal/privacy">Privacy Statement</a></li>
+                            <li><a href="http://www.codeplex.com/site/legal/terms">Terms of Use</a></li>
+                            <li><a href="http://www.codeplex.com/site/legal/conduct">Code of Conduct</a></li>
+                            <li><a href="http://developermedia.com/" target="_blank">Advertise With Us</a></li>
+                            <li>Version 3.28.2017.21050</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </body>
+
+
+<!-- Mirrored from sheetengine.codeplex.com/documentation?referringTitle=Home by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Apr 2017 15:19:28 GMT -->
+</html>
