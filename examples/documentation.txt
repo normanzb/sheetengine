@@ -1,0 +1,704 @@
+sheetengine
+Isometric HTML5 JavaScript Display Engine
+sheetengine.codeplex.com
+
+
+.....................................................................................................
+Introduction
+
+	Sheetengine was originally designed to be the display engine for a social building and gaming project called Crossyards. This project allows users to build custom scenes made up of stand-alone sheets - that can be positioned and oriented according to the user's will - using a basic HTML5 editor interface. To create the editor I was looking for something that was light-weight, cross-browser compatible (HTML5) and could handle isometric projections with the following three features: shadows, z-ordering, intersections. I deliberately chose isometric as I believe real 3D is simply too much for the web and I also wanted to be able to visualize the rendered scenes with extremely performant HTML4 methods (image pyramids) that require the projection output be independent of the camera position. As I introduced custom applications and games in Crossyards the engine soon was somewhat turned into a game engine with extended functionality to support object and camera movements also including collision detection. Since I am a fan of open source I decided to release it under the MIT license, maybe it will be useful for others as well.
+
+	
+.....................................................................................................
+Features
+
+	Isometric rendering
+		The concept of sheetengine is to draw a 3D world with isometric projection by defining sheets. A sheet is basically a (small) rectangular HTML5 canvas that is drawn onto the main canvas using isometric transformations. This means that defining texture of a sheet can be done by simply drawing on the 2D rendering context of the sheet canvas. The engine supports opacity, but shadows will only take fully transparent or opaque pixels into account. Therefore the sheets can take any form with the help of transparent colors.
+		
+	Shadows
+		Shadows are generally very important when rendering 3D scenes but when using isometric projections they are crucial. If you don't draw shadows you are simply unable to tell where the objects are located in space by looking at the rendered image. Sheetengine draws shadows cast by sheets both on the static ground and on other sheets taking fully transparent colors into account. For this a single directional light source is used that can be adjusted in terms of direction and the darkness of drawn shadows.
+		
+	Z-ordering
+		Sheetengine is not a tile-based display engine: the position of sheets can be arbitrary, therefore z-ordering of sheets is a bit more complex problem than a simple equation. The algorithm used guarantees that sheets will be drawn onto the main canvas in the correct order.
+	
+	Intersections
+		Since the position of sheets is allowed to be arbitrary, it can easily happen that the z-order of two sheets can not be determined in case they intersect each other. The library will automatically calculate the intersections of sheets and the resulting polygons can be rendered in the correct order. This algorithm is quite resource-intensive so intersection of moving objects and static sheets is disabled by default (objects are usually not allowed to go through sheets anyway) but can be turned on manually.
+	
+	Object animation
+		SheetObjects are objects made up of sheets. These objects are allowed to be moved/rotated/animated in the scene allowing simple games to be implemented using the library. For every object a temporary canvas is created for rendering - this canvas is used by the engine to update the modified regions in the scene only, for optimized performance.
+		
+	Collision detection
+		Detecting if an object has bumped into a wall or is moving up a stairway is done using a density map. The density map contains points of all sheets in the scene sampled using a specified granularity.
+	
+	Rendering customizations
+		Many rendering attributes can be customized. Size of sheets and base sheets, colors of shaded sheets and shadows, direction of light source, etc. It is also possible to define your own projection model by providing custom transform functions in case you didn't like the built-in one.
+	
+	Rendering on server-side
+		The library is built in a way so that it can be used to render isometric scenes on the server-side using node and node-canvas. This can come very handy if you want to generate images on the server-side to create image pyramids and display isometric scenes in pre-HTML5 browsers (IE8, etc.).
+
+		
+.....................................................................................................
+Topics
+
+	Creating a scene
+	========================================================================================================
+	
+		Initialization
+		--------------------------------------
+	
+			To use the sheetengine library download it and reference it in your html:
+			
+				<script src="sheetengine.js"></script>
+			
+			To create a screen for your application, simply define a canvas in your html markup:
+			
+				<canvas id="mainCanvas" width="500" height="300"></canvas>
+				
+			Now you are ready to create your custom javascript to render scenes. We will use the API functions of sheetengine. To initialize the sheetengine use the init function of the sheetengine object passing the canvas you have defined and the total size of the displayed world:
+			
+				var canvasElement = document.getElementById('mainCanvas');
+				sheetengine.scene.init(canvasElement, {w:2000,h:1500});
+			
+		Dynamic vs static main canvas
+		--------------------------------------
+		
+			The main canvas can be initialized in two ways: dynamic and static. Dynamic means that the main canvas only displays a portion of the actual world so it acts as a viewport to the world and can be moved around over the background. In this case a larger hidden background canvas is created and all drawing occurs on that background canvas - the appropriate portion of the background canvas is then drawn onto the main canvas every time. This is the default operation and we will mostly use this mode when creating games. If you want to be able to move the camera (viewport) around you have to use this mode and provide the size of the background canvas in the init function - make sure all loaded yards will fit onto the given area:
+			
+				// init dynamic canvas with a 2000x1500 pixel background buffer
+				sheetengine.scene.init(canvasElement, {w:2000,h:1500});
+				
+			If you don't provide a size for the background canvas the main canvas will be used for drawing and it will be static - you won't be able to move the camera around:
+		
+				// init static canvas without background buffer
+				sheetengine.scene.init(canvasElement);
+			
+		Defining basesheets
+		--------------------------------------
+		
+			To display the ground you can create basesheets with the following syntax:
+			
+				var basesheet = new sheetengine.BaseSheet(centerp, orientation, size);
+			
+			Parameters are:
+				- centerp: location of the center of the basesheet. JSON with x,y,z keys.
+				- orientation: orientation of the basesheet. JSON with alpha, beta, gamma keys with radian values or alphaD, betaD, gammaD keys with degree values.
+				- size: width and height of the basesheet. JSON with w, h keys.
+			
+			Color of the basesheet can be set by setting its color property after construction.	Example:
+			
+				var basesheet = new sheetengine.BaseSheet({x:0,y:0,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:200,h:200});
+				basesheet.color = '#5D7E36';
+			
+		Defining sheets
+		--------------------------------------
+		
+			Use the following syntax to create individual static sheets:
+			
+				var sheet = new sheetengine.Sheet(centerp, orientation, size);
+			
+			Parameters are:
+				- centerp: location of the center of the sheet. JSON with x,y,z keys.
+				- orientation: orientation of the sheet. JSON with alpha, beta, gamma keys with radian values or alphaD, betaD, gammaD keys with degree values.
+				- size: width and height of the sheet. JSON with w, h keys.
+			
+			Texture of sheet can be given by drawing on the 2d rendering context of the underlying canvas. Use the context property of the sheet to access it. Example:
+			
+				var sheet = new sheetengine.Sheet({x:150,y:20,z:20}, {alphaD:0,betaD:0,gammaD:0}, {w:40,h:40});
+				sheet.context.fillStyle = '#FFF';
+				sheet.context.fillRect(0,0,40,40);
+		
+		Rendering the scene
+		--------------------------------------
+			
+			Before drawing the scene some calculations have to be done. To calculate all sheet data we can use the
+			
+				sheetengine.calc.calculateAllSheets();
+				
+			method. To calculate only changed sheets we can use the
+			
+				sheetengine.calc.calculateChangedSheets();
+				
+			method. Depending on the number of sheets needed to be recalculated one or the other method could perform better. Typically we will use calculateAllSheets to calculate initial scenes and then use calculateChangedSheets in every iteration later on to calculate the changes.
+			
+			To draw the sheets on the main canvas we can use the
+			
+				sheetengine.drawing.drawScene(true);
+			
+			method. Note the 'true' parameter of the drawScene function: it means the whole scene is to be rendered, not only changed parts. Use this setting to draw the initial scene, and you can use the parameterless version drawScene() to draw in-game changes later on.
+		
+		
+	Using custom textures
+	========================================================================================================
+
+		When you create a sheet you can always access its HTML5 2d drawing context using the context property. Thus it is quite easy to use custom textures, since you just have to draw on the sheet's canvas using its context:
+	
+			var sheet = new sheetengine.Sheet({x:0,y:0,z:40}, {alphaD:0,betaD:0,gammaD:0}, {w:80,h:80});
+			var img = new Image();
+			img.onload = function() {
+			  sheet.context.drawImage(img, 0,0);
+			  
+			  // draw the scene
+			  sheetengine.calc.calculateChangedSheets();
+			  sheetengine.drawing.drawScene(true);
+			};
+			img.src = 'images/myimage.png';      
+        
+		Just make sure you call drawScene only after the image has been loaded and drawn onto the canvas. If you want to change texture after the sheet has been displayed you will have to call the
+		
+			sheet.canvasChanged();
+			
+		after drawing on the context. See an example for this case at sprite animation.
+	
+
+	Creating objects
+	========================================================================================================
+
+		If you want to add dynamics (moving sheets, etc.) in sheetengine, you have to use SheetObjects. If you simply create a new sheet, it will become part of the stationary scene. If you want to define sheets that are able to move around, you have to construct objects from them using the SheetObject constructor. The trick here is to define some sheets with position relative to the object center ({x:0,y:0,z:0}). Use the following syntax:
+		
+			var obj = new sheetengine.SheetObject(centerp, orientation, sheets, canvasSize, intersectionsenabled);
+		
+		Parameters are:
+			- centerp: location of the center of the object. JSON with x,y,z keys.
+			- orientation: orientation of the object. JSON with alpha, beta, gamma keys with radian values or alphaD, betaD, gammaD keys with degree values.
+			- sheets: array of sheets the object consists of. Array containing Sheet objects.
+			- canvasSize: size of the object's bounding box with relative position of the object with respect to the top left corner of the bounding box. This parameter is needed to reach optimal performance when redrawing the object. JSON with w, h, relu, relv keys.
+			- intersectionsenabled: (optional) a boolean property that defines whether the object can intersect other sheets or not. Set it to true if you always need proper intersections even if that leads to more computationally expensive calculations. Boolean, default is false.
+			
+		Example:
+		
+			var sheet1 = new sheetengine.Sheet({x:0,y:-14,z:14}, {alphaD:45,betaD:0,gammaD:0}, {w:40,h:40});
+			sheet1.context.fillStyle = '#F00';
+			sheet1.context.fillRect(0,0,40,40);
+			sheet1.context.clearRect(10,10,20,20);
+
+			var sheet2 = new sheetengine.Sheet({x:0,y:14,z:14}, {alphaD:-45,betaD:0,gammaD:0}, {w:40,h:40});
+			sheet2.context.fillStyle = '#FFF';
+			sheet2.context.fillRect(0,0,40,40);
+			sheet2.context.clearRect(10,10,20,20);
+
+			var obj = new sheetengine.SheetObject(
+				{x:-50,y:-50,z:0}, 
+				{alphaD:0,betaD:0,gammaD:0}, 
+				[sheet1, sheet2], 
+				{w:80,h:80,relu:40,relv:50});		
+			
+		The canvasSize parameter
+		--------------------------------------
+		
+			The canvasSize is a compulsory parameter when creating an object. Its role is to define a bounding box that is used to redraw the scene when the object is changed (moved, rotated or any sheet of the object is changed). This makes it possible to only redraw parts of the entire canvas that have been changed since the last drawn snapshot and thus achieve higher frame rates. The canvasSize parameter contains the following properties:		
+		
+				w: width of the bounding box,
+				h: height of the bounding box,
+				relu: horizontal position of the object center relative to the top left corner of the bounding box,
+				relv: vertical position of the object center relative to the top left corner of the bounding box.
+			
+			Select the above properties so that the object and its shadow surely fits into the bounding box. To check if the canvasSize parameter defines the right box switch on object contour drawing and adjust parameter properties accordingly:
+			
+				sheetengine.drawObjectContour = true;
+		
+		The intersectionsenabled parameter
+		--------------------------------------
+
+			The intersectionsenabled is an optional parameter when creating an object. Its role is to define whether the object will intersect other sheets or not. The pure goal of this switch is to make calculations more performant when objects don't intersect other sheets - which is the usual case. In a typical scenario if you define an object that can move around (like a character or a vehicle), it may not go through walls or trees or other objects in the scene (because it will be stopped using collision detection before that could happen). Therefore it is usually unnecessary to calculate intersections for these objects - because intersections will simply not occur - and this is the default behavior. To indicate that an object is allowed to intersect others (for example a wall can be setup to intersect another wall), set this switch to true and thus you will get correctly displayed polygons. Note, that the intersections of an object's own sheets will always be correctly calculated regardless of the state of this switch, so if you define an object that consist of sheets that intersect each other, those will always be displayed correctly. 
+			
+			Note, that the above behavior can be switched off by setting		
+			
+				sheetengine.objectsintersect = true;
+				
+			which will globally enable intersections of all sheets, regardless of the intersectionsenabled parameter of objects. 
+			
+			
+	Moving / rotating objects
+	========================================================================================================
+			
+		To move an object to a specific position you can use the following function:
+		
+			obj.setPosition(targetp);
+			
+		where targetp is a JSON with x,y,z keys. To move an object with a displacement vector use the following syntax:
+		
+			obj.move(displacement);
+			
+		where displacement is a JSON with x,y,z keys. To set the absolute orientation of an object use the following:
+
+			obj.setOrientation(orientation);
+		
+		where orientation is a JSON with alpha, beta, gamma keys with radian values or alphaD, betaD, gammaD keys with degree values. To rotate an object relative to its current orientation, use the following function:
+		
+			obj.rotate(axis, angle);
+			
+		where axis is a JSON with x,y,z keys and angle is given in radians. 
+		
+		Examples:
+		
+			obj.setPosition({x:100,y:150,z:10});
+			obj.move({x:10,y:0,z:0});
+			obj.rotate({x:0,y:0,z:1}, Math.PI / 2);
+			obj.setOrientation({alphaD: 0, betaD: 0, gammaD: 60});
+		
+		To render the scene after changing the states of objects use the following function calls:
+		
+			sheetengine.calc.calculateChangedSheets();
+			sheetengine.drawing.drawScene();
+			
+		Be sure to only call these functions once in every frame iteration - after you have moved / rotated all your objects.
+			
+		
+	Moving the camera
+	========================================================================================================
+		
+		To move the camera to a specific location use
+		
+			sheetengine.scene.setCenter(targetp, targetpuv);
+			
+		Parameters are:
+			- targetp: target viewpoint of camera in world coordinates. JSON with x,y,z keys.
+			- targetpuv: target viewpoint of camera in camera coordinates. JSON with u,v keys.
+			
+		Either of the parameters can be omitted. To move the camera with a displacement vector use
+		
+			sheetengine.scene.moveCenter(displacement, displacementuv);
+
+		Parameters are:
+			- displacement: displacement vector in world coordinates. JSON with x,y,z keys.
+			- displacementuv: displacement vector in camera coordinates. JSON with u,v keys.
+			
+		Either of the parameters can be omitted. 
+		
+		Examples:
+		
+			sheetengine.scene.setCenter({x:100, y:50, z:0});		// set xyz
+			sheetengine.scene.setCenter(null, {u:100, v:50});		// set uv
+			sheetengine.scene.moveCenter({x:10, y:10, z:0});		// displace with xyz
+			sheetengine.scene.moveCenter(null, {u:5, v:5});			// displace with uv
+		
+
+	Animating objects
+	========================================================================================================
+
+		Animating sheet texture
+		--------------------------------------
+		
+			To animate the texture of an object sheet simply use the 2D rendering context. After drawing on the context call the canvasChanged function:
+			
+				function animateSheet(sheet, state) {
+					sheet.context.fillStyle = '#F00';
+					sheet.context.fillRect(state * 10,0,10,10);
+					sheet.canvasChanged();
+				}
+
+		Moving object sheets
+		--------------------------------------
+		
+			You can animate characters and objects by moving/rotating object sheets. To set the position/orientation of a sheet of an object you can use the following function:
+			
+				obj.setSheetPos(sheet, targetp, orientation);
+				
+			Parameters are:
+				- sheet: sheet of object to be moved. Reference to the sheet.
+				- targetp: target location of center of sheet. JSON with x,y,z keys.
+				- orientation: orientation of sheet. JSON with alpha, beta, gamma keys with radian values or alphaD, betaD, gammaD keys with degree values.
+				
+			You can also simply rotate a sheet with around an axis with a specified angle:
+			
+				obj.rotateSheet(sheet, axisPoint, axisDirection, angle);
+				
+			Parameters are:
+				- sheet: sheet of object to be moved. Reference to the sheet.
+				- axisPoint: a point on the axis of rotation. JSON with x,y,z keys.
+				- axisDirection: vector defining the axis of rotation. JSON with x,y,z keys.
+				- angle: rotation angle in radians.
+				
+			Please note, that if an object was created with the intersectionsenabled = false setting and the sheet of the object has been moved in a way that makes it necessary to recalculate intersections, then you will have to call 
+			
+				obj.redefineIntersections();
+			
+			right after calling rotateSheet or setSheetPos on the object. 
+			
+				
+			Examples:
+				
+				var sheet = obj.sheets[0];
+				obj.setSheetPos(sheet, {x:0,y:0,z:0}, {alphaD:0,betaD:0,gammaD:0});
+				obj.redefineIntersections();
+				
+				var left = obj.sheets[0];
+				gate.rotateSheet(left, {x:-21,y:0,z:0}, {x:0,y:0,z:1}, -Math.PI/32);
+
+		Sprite animation
+		--------------------------------------
+		
+			Sheetengine was designed to give you the ability to define your own models using sheets. Intersections and shadows for your objects are automatically handled by the engine. However if you want to use sprites it is also possible: simply define an object with a singe sheet directed towards the camera and switch off shadows cast on and by the sheet using the following function:
+			
+				obj.setShadows(castShadows, allowShadows);
+				
+			Parameters are:
+				- castShadows: boolean defining the object should cast shadows or not. Set to false if you don't want the object to cast shadows.
+				- allowShadows: boolean defining other objects are allowed to cast shadows on this object. Set to false if you don't want other sheets' shadow appear on object surface.
+			
+			To animate the sprite use the techniques described in Animating sheet texture and Using custom textures.
+
+			
+	Hiding / showing objects
+	========================================================================================================
+
+		To hide an object use the following:
+		
+			obj.hide();
+			
+		To show an object use the following:
+		
+			obj.show();
+		
+		To query the hidden state of any object use the following:
+		
+			var hidden = obj.hidden;
+			
+		It is also possible to permanently remove an object from a scene. To do this use the following:
+		
+			obj.destroy();
+		
+		Destroying and re-adding an object can be resource-consuming compared to hiding and reshowing an object. Thus it is reasonable to use an object-pool with a couple of hidden objects if certain types of objects can appear and disappear in the scene from time-to-time. A good example for this would be rockets launched by a character: a rocket is typically a SheetObject because it can move around and a character can fire multiple rockets that later explode (disappear). In this case it is better to create a number of rockets, hide them, and when the character fires take one rocket, show it and reposition it to the start location, than to destroy it and add it to the scene every time.
+		
+
+	Rendering with zoom
+	========================================================================================================
+
+		If you want to get a zoomed view of the rendered scene simply apply the necessery transformations to the 2D rendering context of the main canvas after initialization:
+
+		var zoom = 2;
+		sheetengine.context.scale(zoom,zoom);
+		sheetengine.context.translate(
+			-sheetengine.canvas.width/(2*zoom)*(zoom-1),
+			-sheetengine.canvas.height/(2*zoom)*(zoom-1));
+			
+
+	Custom view transformations
+	========================================================================================================
+
+		It is possible to use custom view transformations other than the built-in ones. To do this you have to override the necessary transform functions. The
+		
+			sheetengine.transforms.transformPoint = func1;
+			
+		where func1 is a function that receives a point in world coordinates (JSON with x,y,z keys) and returns a point in camera coordinates (JSON with u,v keys). The
+		
+			sheetengine.transforms.transformPointz = func2;
+			
+		where func2 is a function that receives a point in world coordinates (JSON with x,y,z keys) and returns a point in camera coordinates including depth value (JSON with u,v,z keys). The
+		
+			sheetengine.transforms.inverseTransformPoint = func3;
+			
+		where func3 is a function that receives a point in camera coordinates (JSON with u,v keys) and returns a point in world coordinates (JSON with x,y,z keys, z can be null). Also, the view direction of the camera should be specified with
+			
+			sheetengine.viewSource = vs;
+			
+		where vs is a JSON with keys x,y,z.
+		
+		Example:
+	
+			sheetengine.transforms.transformPoint = function(p) {
+				var u = p.x;
+				var v = p.y;
+				return { u: u, v: v };
+			};
+			sheetengine.transforms.transformPointz = function(p) {
+				var u = p.x;
+				var v = p.y;
+				var z = -p.z;
+				return { u: u, v: v, z: z };
+			};
+			sheetengine.transforms.inverseTransformPoint = function(p) {
+				var x = (p.u - sheetengine.canvasCenter.u);
+				var y = (p.v - sheetengine.canvasCenter.v);
+				return { x:Math.floor(x), y:Math.floor(y), z:null };
+			};
+			sheetengine.viewSource = { x: 0, y: 0, z: -1};
+			
+
+	Making sheets transparent
+	========================================================================================================
+	
+		When using isometric projection to render scenes it is important to provide means to display an object even when it is occluded by other sheets. Sheetengine will dim (in other words make transparent) any sheets that would hide an object if the object is configured accordingly. This is a usual technique to allow the users to see objects behind places where the camera can never reach. Use the following syntax to configure objects for dimming sheets:
+		
+			obj.setDimming(dimSheets, dimmingDisabled);
+		
+		Parameters are:
+		
+			dimSheets: if true the object will make occluding sheets go transparent.
+			dimmingDisabled: if true sheets of this object will never go transparent, even if they occlude other sheets or objects.
+		
+		You can also set dimming of individual static sheets:
+		
+			sheet.setDimming(dimSheets, dimmingDisabled);
+		
+		When using objects that can dim sheets that would hide them it is possible to fine-adjust the rate of dimming. This can be done by setting the dimmedAlpha property of sheetengine.drawing: 
+		
+			sheetengine.drawing.dimmedAlpha = alphaValue;
+		
+		The value should fall between 0 and 1, 0 means total hiding, 1 means no dimming at all. By default it is 0.2.
+		
+
+	Static drawing
+	========================================================================================================
+
+		To draw arbitrary things on the canvas, you can use the HTML5 context of the main canvas, just make sure you draw on it after calling drawScene, since it will redraw the whole canvas:
+		
+			var context = sheetengine.context;
+			
+		To determine the coordinates of a point in the rendered world we can use the following:
+		
+			sheetengine.drawing.getPointuv(point);
+			
+		Parameters are:
+			- point: the point given in world coordinates (JSON with x,y,z keys).
+		
+		Example:
+
+			sheetengine.drawing.drawScene();
+		
+			var ctx = sheetengine.context;
+			ctx.save();
+			ctx.scale(1, 0.5);
+			ctx.lineWidth = 3;
+			ctx.globalAlpha = 0.5;
+			ctx.strokeStyle = '#AAF';
+			ctx.beginPath();
+			var characterp = sheetengine.drawing.getPointuv(character.centerp);
+			ctx.arc(characterp.u, characterp.v*2, 15, 0, Math.PI*2);
+			ctx.stroke();
+			ctx.restore();
+			
+
+	Collision detection
+	========================================================================================================
+		
+		Creating a density map
+		--------------------------------------
+
+			Sheetengine supports simple collision detecion using a density map. The density map contains points of sheets that are sampled using a value defining the granularity of the density map. To create the density map use the following code
+			
+				var densityMap = new sheetengine.DensityMap(granularity);
+			
+			Parameters are:
+				- granularity: integer value defining sampling granularity of sheets.
+			
+			To add sheets to the density map use the following function:
+			
+				densityMap.addSheets(sheets);
+				
+			Parameters are:
+				- sheets: array of sheets.
+				
+			This will generate a density map derived from the given sheets with the given granularity. 
+			
+		Using the density map
+		--------------------------------------
+		
+			The following function shows how you can use the density map in practice: for a given point it gives 0 if there is no object or gives a number >0 if there is an object there
+			
+				var isThereAnything = densityMap.get({x:0,y:0,z:0});
+		
+			Another handy function to use the map with is:
+			
+				var targetInfo = densityMap.getTargetPoint(targetp, direction, objHeight, maxClimb);
+				
+			This function will return where an object will be moved given the direction of motion and target location. Parameters are:
+				- targetp: point where we are trying to move an object. JSON with x,y,z keys.
+				- direction: direction of object. JSON with x,y,z keys.
+				- objHeight: height of the object. Numeric value.
+				- maxClimb: the maximum number of pixels/units the object is allowed to climb up. Numeric value.
+			
+			The getTargetPoint will return a targetInfo object of the following keys:
+			
+				- allowMove: describes if the character can move forward or not.
+				- targetp: will be the resulting point corrected with the density map object detection.
+				- movex, movey: will be the resulting move vector in x-y direction: they can be 0 if the character hit an object. 
+				- stopFall: indicates if the character hit the ground so it cannot fall further.
+			
+			Example:
+
+				var targetInfo = densityMap.getTargetPoint(character.centerp, {x:dx, y:dy, z:jumpspeed}, 20, 10);
+				var allowMove = targetInfo.allowMove;
+				var targetp = targetInfo.targetp;
+				
+				var moved = 
+					targetp.x != character.centerp.x || 
+					targetp.y != character.centerp.y || 
+					targetp.z != character.centerp.z;
+				  
+				if (moved && allowMove) {
+					character.setPosition(targetp);
+				}
+  
+		Dynamic changes in the density map
+		--------------------------------------
+			The above methods are adequate if you have a static environment where only your character can change its position. However, if you need to handle objects that can move around and also need to be included in the density map you will need to change the map according to the movement of such objects. You can use a combination of the removeSheet and addSheet functions.
+			
+			Example:
+			
+				var sheet = obj.sheets[0];
+
+				// remove sheet from the density map
+				densityMap.removeSheet(sheet);
+
+				// rotate sheet
+				obj.rotateSheet(sheet, {x:0,y:0,z:0}, {x:0,y:0,z:1}, -Math.PI/32);
+
+				// add sheet to the density map
+				densityMap.addSheet(sheet);
+			
+		Skipping the density map
+		--------------------------------------
+		
+			After an object has been created manually using the SheetObject constructor, calling addSheets on the DensityMap object passing sheetengine.sheets will also put the object into the density map among all other sheets:
+			
+				var myobj = new sheetengine.SheetObject(centerp, rot, [sheet1,sheet2]);
+				densityMap.sheetengine.addSheets(sheetengine.sheets); 
+				// sheets of myobj is also included in the density map
+				
+			This behavior can be switched off using the setCollision function on an object:
+			
+				obj.setCollision(false);
+				
+			You can switch it off on individual sheets, too:
+			
+				sheet.skipDensityMap = true;
+				
+				
+	Selecting locations and objects
+	========================================================================================================
+
+		To determine the world coordinates of the location selected by the user we can use the following function:
+		
+			var pxy = sheetengine.transforms.inverseTransformPoint(pointuv);
+			
+		Parameters are:
+			- pointuv: point in camera coordinates. JSON with u,v keys.
+			
+		This can be combined with a click event to determine world coordinates the following way:
+		
+			canvasElement.onclick = function(event) {
+				var puv = {
+					u:event.clientX - sheetengine.canvas.offsetLeft, 
+					v:event.clientY - sheetengine.canvas.offsetTop
+				};
+				var pxy = sheetengine.transforms.inverseTransformPoint({
+					u:puv.u + sheetengine.scene.center.u, 
+					v:puv.v + sheetengine.scene.center.v
+				});
+			}
+		
+		To determine if an object is selected in the scene simply use the getPointuv function to determine the object's u-v coordinates and compare it to the u-v coordinates of the mouse:
+		
+			canvasElement.onmousemove = function(event) {
+				// get the hover coordinates
+				var puv = {
+					u:event.clientX - sheetengine.canvas.offsetLeft, 
+					v:event.clientY - sheetengine.canvas.offsetTop
+				};
+			  
+				// check if the object has been hovered
+				var objhovered = isObjectHovered(puv);
+			}
+
+			function isObjectHovered(puv) {
+				var ouv = sheetengine.drawing.getPointuv(obj.centerp);
+				if (puv.u > ouv.u - 20 &&
+					puv.u < ouv.u - 20 + 40 &&
+					puv.v > ouv.v - 30 &&
+					puv.v < ouv.v - 30 + 40)
+					return true;
+			
+				return false;
+			}
+
+			
+	Adjusting the light source
+	========================================================================================================
+	
+		Setting direction of light
+		--------------------------------------
+			
+			To set up different angle of incidence for the light source you'll have to define the coordinate system of the light source that is necessary for some calculations. First provide the direction of light rays emitted by the new light source 
+			
+				sheetengine.shadows.lightSource = ls;
+				
+			where ls is vector pointing towards the light source (JSON with x,y,z keys). Next, define a vector that is perpendicular to it. The easiest way is to solve the x0*x + y0*y + z0*z = 0 equation, since the scalar product of the two vectors should be 0:
+			
+				sheetengine.shadows.lightSourcep1 = lsp1;
+				
+			where lsp1 is a vector (JSON with x,y,z keys) perpendicular to ls. The last step is to define the third vector that is perpendicular to both of the above. The easiest is to calculate their vector product:
+			
+				sheetengine.shadows.lightSourcep2 = lsp2;
+			
+			where lsp2 is a vector (JSON with x,y,z keys) perpendicular to both ls and lsp1. 
+
+		Adjusting shadow darkness
+		--------------------------------------
+			
+			To use darker or lighter shadows set the following:
+			
+				sheetengine.shadows.shadowAlpha = alpha;
+				
+			where alpha is a value between 0 and 1: 1 means black shadows, 0 means no shadows at all.
+			
+			To use a darker or lighter color for shaded sheets (sheets that are turned away from the light source) set the following:
+			
+				sheetengine.shadows.shadeAlpha = alpha;
+		
+			where alpha is a value between 0 and 1: 1 means black shades, 0 means no shade at all.
+			
+			Shadow drawings can be switched of globally (this could lead to slight performance gain on slower machines):
+			
+				sheetengine.shadows.drawShadows = false;
+			
+
+	Rendering large scenes
+	========================================================================================================
+
+		Sheetengine performs best when it displays relatively small number of sheets. If you want to display large scenes and place large number of sheets in the scene it is recommended that you only show small regions of the whole scene at once and load the rest of the world dynamically, as the the camera is being moved. To remove a sheet or a basesheet from the scene call
+		
+			sheet.destroy();
+			
+		You can also remove objects the same way:
+		
+			obj.destroy();
+
+		See examples for more info on this topic.
+		
+
+	Rendering scenes on server side
+	========================================================================================================
+
+		Sheetengine can also be used on the server-side to render scenes. In this example we use node (http://nodejs.org) and node-canvas (https://github.com/LearnBoost/node-canvas). For the latter you will also have to install Cairo (http://cairographics.org). Let's include the required modules:
+
+			var http = require('http');
+			var Canvas = require('canvas');
+			var sheetengine = require('../sheetengine');
+        
+		The next step is to instruct sheetengine to use a custom function for creating canvases instead of the default implementation:
+
+			sheetengine.drawing.createCanvas = function(w, h) { return new Canvas(w, h); };
+        
+		We also have to use the Canvas constructor of node-canvas when initializing sheetengine:
+
+			var canvasElement = new Canvas(900,500);
+			sheetengine.scene.init(canvasElement);
+        
+		That's it, everything else works the same way you have seen it in previous examples. The only thing left is to serve the image over http: node-canvas provides means for this, too:
+
+			http.createServer(function (req, res) {
+
+			  // redraw the scene for every request
+			  drawScene();
+			  
+			  // send the image as the response
+			  var buf = sheetengine.canvas.toBuffer();
+			  
+			  res.statusCode = 200;
+			  res.setHeader('Content-Type', 'image/png');
+			  res.setHeader('Content-Length', buf.length);
+			  res.end(buf);
+			  
+			}).listen(80);        
+

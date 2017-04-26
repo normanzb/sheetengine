@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #mainimage{border:1px solid #DDD;width:900px;height:500px;}
+    .content textarea{width:900px;overflow-x:auto;margin-top:20px;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Rendering scenes on server side
+      </div>
+      
+      <div>
+        <img id="mainimage" src="http://127.0.0.1" />
+        <i>Execute rendering-scenes-on-server-side.js using node! An http server will be started listening to requests. If you have it running on 127.0.0.1 you should be able to see the scene rendered above.</i>
+      </div>
+      
+      <div class="content">
+
+        Sheetengine can also be used on the server-side to render scenes. In this example we use node (<a href="http://nodejs.org">http://nodejs.org</a>) and node-canvas (<a href="https://github.com/LearnBoost/node-canvas">https://github.com/LearnBoost/node-canvas</a>). For the latter you will also have to install Cairo (<a href="http://cairographics.org/">http://cairographics.org</a>). Let's include the required modules:
+        
+        <div class="code">
+var http = require('http');
+var Canvas = require('canvas');
+var sheetengine = require('../sheetengine');
+        </div>
+        
+        The next step is to instruct sheetengine to use a custom function for creating canvases instead of the default implementation:
+        
+        <div class="code">
+sheetengine.drawing.createCanvas = function(w, h) { return new Canvas(w, h); };
+        </div>
+
+        We also have to use the Canvas constructor of node-canvas when initializing sheetengine:
+        
+        <div class="code">
+var canvasElement = new Canvas(900,500);
+sheetengine.scene.init(canvasElement);
+        </div>
+
+        That's it, everything else works the same way you have seen it in previous examples. The only thing left is to serve the image over http: node-canvas provides means for this, too:
+        
+        <div class="code">
+http.createServer(function (req, res) {
+
+  // redraw the scene for every request
+  drawScene();
+  
+  // send the image as the response
+  var buf = sheetengine.canvas.toBuffer();
+  
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Content-Length', buf.length);
+  res.end(buf);
+  
+}).listen(80);        
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </body>
+</html>

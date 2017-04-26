@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;width:960px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #maincanvas{border:1px solid #DDD;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Creating / moving / rotating objects
+      </div>
+      
+      <canvas id="maincanvas" width="900" height="500"></canvas>
+      
+      <div class="content">
+        If you want to add dynamics (moving sheets, etc.) in sheetengine, you have to use SheetObjects. If you simply create a new sheet, it will become part of the stationary scene. If you want to define sheets that are able to move around, you have to construct objects from them using the SheetObject constructor. The trick here is to define some sheets with position relative to the object center ({x:0,y:0,z:0}). Last parameter defines the size of the object canvas (and the relative position of the object center to the top left corner of the object canvas) that will be updated and drawn onto the main canvas every time the object is moved:
+        
+        <div class="code">
+var sheet1 = new sheetengine.Sheet({x:0,y:-14,z:14}, {alphaD:45,betaD:0,gammaD:0}, {w:40,h:40});
+sheet1.context.fillStyle = '#F00';
+sheet1.context.fillRect(0,0,40,40);
+sheet1.context.clearRect(10,10,20,20);
+
+var sheet2 = new sheetengine.Sheet({x:0,y:14,z:14}, {alphaD:-45,betaD:0,gammaD:0}, {w:40,h:40});
+sheet2.context.fillStyle = '#FFF';
+sheet2.context.fillRect(0,0,40,40);
+sheet2.context.clearRect(10,10,20,20);
+
+var obj = new sheetengine.SheetObject(
+  {x:-50,y:-50,z:0}, 
+  {alphaD:0,betaD:0,gammaD:0}, 
+  [sheet1, sheet2], 
+  {w:80,h:80,relu:40,relv:50});
+        </div>
+
+        To move the object we use the move function:
+        
+        <div class="code">
+obj.move({x:0,y:0,z:0});
+        </div>
+
+        To rotate the object we use the rotate function (first parameter is rotation axis, second is angle of rotation):
+
+        <div class="code">
+obj.rotate({x:0, y:0, z:1}, Math.PI/2);
+        </div>
+        
+        In each iteration we have to calculate the changes and eventually persist all changes to the canvas. Here we will call the drawScene function without parameters, which means we are only redrawing the changes and not the whole scene - this is much faster:
+        
+        <div class="code">
+sheetengine.calc.calculateChangedSheets();
+sheetengine.drawing.drawScene();
+        </div>
+        
+      </div>
+      
+    </div>
+    
+    <script>
+      var canvasElement = document.getElementById('maincanvas');
+      sheetengine.scene.init(canvasElement, {w:900,h:500});
+
+      // define some basesheets
+      for (var x=-1; x<=1; x++) {
+        for (var y=-1; y<=1; y++) {
+          var basesheet = new sheetengine.BaseSheet({x:x*200,y:y*200,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:200,h:200});
+          basesheet.color = '#5D7E36';
+        }
+      }
+
+      // define a custom object
+      var sheet1 = new sheetengine.Sheet({x:0,y:-14,z:14}, {alphaD:45,betaD:0,gammaD:0}, {w:40,h:40});
+      sheet1.context.fillStyle = '#F00';
+      sheet1.context.fillRect(0,0,40,40);
+      sheet1.context.clearRect(10,10,20,20);
+
+      var sheet2 = new sheetengine.Sheet({x:0,y:14,z:14}, {alphaD:-45,betaD:0,gammaD:0}, {w:40,h:40});
+      sheet2.context.fillStyle = '#FFF';
+      sheet2.context.fillRect(0,0,40,40);
+      sheet2.context.clearRect(10,10,20,20);
+
+      var obj = new sheetengine.SheetObject({x:-50,y:-50,z:0}, {alphaD:0,betaD:0,gammaD:0}, [sheet1, sheet2], {w:80,h:80,relu:40,relv:50});
+
+      // draw initial scene
+      sheetengine.calc.calculateAllSheets();
+      sheetengine.drawing.drawScene(true);
+      
+      // move object around
+      var maxsteps = 20;
+      var steps = 0;
+      var direction = {x:5, y:0, z:0};
+      var rotate = false;
+      setInterval(function() {
+        if (rotate) {
+          obj.rotate({x:0, y:0, z:1}, Math.PI/2/maxsteps);
+          if (++steps >= maxsteps) {
+            steps = 0;
+            rotate = false;
+          }
+        } else {
+          obj.move(direction);
+          if (++steps >= maxsteps) {
+            if (direction.x == 5) { direction.x = 0; direction.y = 5; }
+            else if (direction.y == 5) { direction.x = -5; direction.y = 0; }
+            else if (direction.x == -5) { direction.x = 0; direction.y = -5; }
+            else if (direction.y == -5) { direction.x = 5; direction.y = 0; }
+            steps = 0;
+            rotate = true;
+          }
+        }
+      
+        // calculate sheets and draw scene
+        sheetengine.calc.calculateChangedSheets();
+        sheetengine.drawing.drawScene();
+      }, 30);
+      
+    </script>
+
+  </body>
+</html>

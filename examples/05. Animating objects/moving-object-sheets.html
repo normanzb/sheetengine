@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;width:960px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #maincanvas{border:1px solid #DDD;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Moving object sheets
+      </div>
+      
+      <canvas id="maincanvas" width="900" height="500"></canvas>
+      
+      <div class="content">
+        
+        In this example we use the rotateSheet method of our object to change the orientation of some sheets. First parameter is a reference to the sheet, second and third parameters set the axis of rotation (second is a point on the axis, third is the direction of the axis), last parameter is rotation angle in radians:
+        
+        <div class="code">
+var state = Math.floor( (character.animationState % 8) / 2);
+var dir = (state == 0 || state == 3) ? 1 : -1;
+
+character.rotateSheet(character.leg1, {x:0,y:0,z:8}, {x:1,y:0,z:0}, dir * Math.PI/8);
+character.rotateSheet(character.leg2, {x:0,y:0,z:8}, {x:1,y:0,z:0}, -dir * Math.PI/8);
+        </div>
+
+        Since the above rotations do not affect intersections of other sheets of the object we don't have to call the redefineIntersections function on the object.
+        
+      </div>
+      
+    </div>
+    
+    <script>
+      var canvasElement = document.getElementById('maincanvas');
+      sheetengine.scene.init(canvasElement, {w:900,h:500});
+      
+      // define some basesheets
+      for (var x=-1; x<=1; x++) {
+        for (var y=-1; y<=1; y++) {
+          var basesheet = new sheetengine.BaseSheet({x:x*200,y:y*200,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:200,h:200});
+          basesheet.color = '#5D7E36';
+        }
+      }
+      
+      // function for creating a character with a body and 2 legs
+      function defineCharacter(centerp) {
+        // character definition for animation with sheet motion
+        var body = new sheetengine.Sheet({x:0,y:0,z:15}, {alphaD:0,betaD:0,gammaD:0}, {w:11,h:14});
+        var backhead = new sheetengine.Sheet({x:0,y:-1,z:19}, {alphaD:0,betaD:0,gammaD:0}, {w:8,h:6});
+        backhead.context.fillStyle = '#550';
+        backhead.context.fillRect(0,0,8,6);
+        // legs
+        var leg1 = new sheetengine.Sheet({x:-3,y:0,z:4}, {alphaD:0,betaD:0,gammaD:0}, {w:5,h:8});
+        leg1.context.fillStyle = '#00F';
+        leg1.context.fillRect(0,0,5,10);
+        var leg2 = new sheetengine.Sheet({x:3,y:0,z:4}, {alphaD:0,betaD:0,gammaD:0}, {w:5,h:8});
+        leg2.context.fillStyle = '#00F';
+        leg2.context.fillRect(0,0,5,10);
+
+        // define character object
+        var character = new sheetengine.SheetObject(centerp, {alphaD:0,betaD:0,gammaD:90}, [body,backhead,leg1,leg2], {w:70, h:110, relu:10, relv:25});
+          
+        character.leg1 = leg1;
+        character.leg2 = leg2;
+        
+        var ctx = body.context;
+        
+        // head
+        ctx.fillStyle = '#FF0';
+        ctx.fillRect(2,2,7,4);
+        ctx.fillStyle = '#550';
+        ctx.fillRect(2,0,7,2);
+        ctx.fillRect(2,2,1,1);
+        ctx.fillRect(8,2,1,1);
+
+        // body
+        ctx.fillStyle = '#F0F';
+        ctx.fillRect(0,6,11,7);
+          
+        // hands
+        ctx.fillStyle = '#FF0';
+        ctx.fillRect(0,11,1,2);
+        ctx.fillRect(10,11,1,2);
+        
+        character.animationState = 0;
+        return character;
+      };
+      
+      // function for animating character's sheets
+      function animateCharacter(character) {
+        var state = Math.floor( (character.animationState % 8) / 2);
+        var dir = (state == 0 || state == 3) ? 1 : -1;
+        
+        character.rotateSheet(character.leg1, {x:0,y:0,z:8}, {x:1,y:0,z:0}, dir * Math.PI/8);
+        character.rotateSheet(character.leg2, {x:0,y:0,z:8}, {x:1,y:0,z:0}, -dir * Math.PI/8);
+      }      
+      
+      
+      // define a character
+      var character = defineCharacter({x:0,y:0,z:0});
+      
+
+      // draw initial scene
+      sheetengine.calc.calculateAllSheets();
+      sheetengine.drawing.drawScene(true);
+      
+      // move character around
+      var maxsteps = 20;
+      var steps = 0;
+      var direction = {x:5, y:0, z:0};
+      var rotate = false;
+      setInterval(function() {
+        if (rotate) {
+          character.rotate({x:0, y:0, z: 1}, Math.PI/2/maxsteps);
+          if (++steps >= maxsteps) {
+            steps = 0;
+            rotate = false;
+          }
+        } else {
+          character.move(direction);
+          if (++steps >= maxsteps) {
+            if (direction.x == 5) { direction.x = 0; direction.y = 5; }
+            else if (direction.y == 5) { direction.x = -5; direction.y = 0; }
+            else if (direction.x == -5) { direction.x = 0; direction.y = -5; }
+            else if (direction.y == -5) { direction.x = 5; direction.y = 0; }
+            steps = 0;
+            rotate = true;
+          }
+          
+          animateCharacter(character);
+          character.animationState++;
+        }
+        
+      
+        // calculate sheets and draw scene
+        sheetengine.calc.calculateChangedSheets();
+        sheetengine.drawing.drawScene();
+      }, 30);
+      
+    </script>
+
+  </body>
+</html>

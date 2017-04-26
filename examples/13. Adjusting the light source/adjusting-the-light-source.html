@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #maincanvas{border:1px solid #DDD;}
+    .content textarea{width:900px;overflow-x:auto;margin-top:20px;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Adjusting the light source
+      </div>
+      
+      <div style="position:relative;">
+        <canvas id="maincanvas" width="900" height="500"></canvas>
+        <div style="background-color:#D1A200;width:900px;height:500px;position:absolute;top:0px;opacity:0.1;"></div>
+      </div>
+      
+      <div class="content">
+
+        To set up different angle of incidence for the light source you'll have to define the coordinate system of the light source that is necessary for some calculations. First provide the direction of light rays emitted by the new light source (notice we use inverse z-direction):
+        
+        <div class="code">
+sheetengine.shadows.lightSource = { x: 1, y: -1, z: -1 };
+        </div>
+
+        Next, define a vector that is perpendicular to it. The easiest way is to solve the x0*x + y0*y + z0*z = 0 equation, since the scalar product of the two vectors should be 0:
+        
+        <div class="code">
+// perpendicular to lightsource, scalar prod is 0 : 1x -1y -1z = 0
+sheetengine.shadows.lightSourcep1 = { x: 1, y: 2, z: -1 };
+        </div>
+        
+        The last step is to define the third vector that is perpendicular to both of the above. The easiest is to calculate their vector product:
+        
+        <div class="code">
+// perpendicular both to lightsource and p1 (ls x p1 = p2)
+sheetengine.shadows.lightSourcep2 = { x: 3, y: 0, z: 3 };
+        </div>
+
+        To use darker or lighter shadows set the shadowAlpha property:
+        
+        <div class="code">
+sheetengine.shadows.shadowAlpha = 0.8;
+        </div>
+
+        To use a darker or lighter color for shaded sheets (sheets that are turned away from the light source) set the shadeAlpha property:
+        
+        <div class="code">
+sheetengine.shadows.shadeAlpha = 0.6;
+        </div>
+        
+        We've also used a little trick in the example to define a special color tone for the scene. An overlay div is hovered over the canvas with a custom background-color:
+        
+        <textarea readonly="readonly" wrap="off" rows=5>
+<div style="position:relative;">
+  <canvas id="maincanvas" width="900" height="500"></canvas>
+  <div style="background-color:#D1A200;width:900px;height:500px;position:absolute;top:0px;opacity:0.1;"></div>
+</div>
+        </textarea>
+        
+      
+      </div>
+      
+    </div>
+
+    <script>
+      var canvasElement = document.getElementById('maincanvas');
+      sheetengine.scene.init(canvasElement, {w:900,h:500});
+      
+      // adjust the light source
+      sheetengine.shadows.lightSource = { x: 1, y: -1, z: -1 };
+      sheetengine.shadows.lightSourcep1 = { x: 1, y: 2, z: -1 };  // perpendicular to lightsource, scalar prod is 0 : 1x -1y -1z = 0
+      sheetengine.shadows.lightSourcep2 = { x: 3, y: 0, z: 3 };  // perpendicular both to lightsource and p1 (ls x p1 = p2)
+      sheetengine.shadows.shadowAlpha = 0.8;
+      sheetengine.shadows.shadeAlpha = 0.6;
+      
+      // define some basesheets
+      for (var x=-1; x<=1; x++) {
+        for (var y=-1; y<=1; y++) {
+          var basesheet = new sheetengine.BaseSheet({x:x*200,y:y*200,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:200,h:200});
+          basesheet.color = '#5D7E36';
+        }
+      }
+
+      // define some sheets: create a white box
+      var sheet = new sheetengine.Sheet({x:150,y:20,z:20}, {alphaD:0,betaD:0,gammaD:0}, {w:40,h:40});
+      sheet.context.fillStyle = '#FFF';
+      sheet.context.fillRect(0,0,40,40);
+      sheet = new sheetengine.Sheet({x:170,y:0,z:20}, {alphaD:0,betaD:0,gammaD:90}, {w:40,h:40});
+      sheet.context.fillStyle = '#FFF';
+      sheet.context.fillRect(0,0,40,40);
+      sheet = new sheetengine.Sheet({x:150,y:0,z:40}, {alphaD:90,betaD:0,gammaD:0}, {w:40,h:40});
+      sheet.context.fillStyle = '#FFF';
+      sheet.context.fillRect(0,0,40,40);
+      sheet = new sheetengine.Sheet({x:150,y:-20,z:20}, {alphaD:0,betaD:0,gammaD:0}, {w:40,h:40});
+      sheet.context.fillStyle = '#FFF';
+      sheet.context.fillRect(0,0,40,40);
+      
+      
+      // define some sheets: create a pine tree
+      var sheet4 = new sheetengine.Sheet({x:-150,y:-120,z:40}, {alphaD:0,betaD:0,gammaD:0}, {w:80,h:80});
+      var sheet5 = new sheetengine.Sheet({x:-150,y:-120,z:40}, {alphaD:0,betaD:0,gammaD:90}, {w:80,h:80});
+      
+      function drawPineTexture(context) {
+        context.fillStyle='#BDFF70';
+        context.beginPath();
+        context.moveTo(40,0);
+        context.lineTo(60,30);
+        context.lineTo(50,30);
+        context.lineTo(70,60);
+        context.lineTo(10,60);
+        context.lineTo(30,30);
+        context.lineTo(20,30);
+        context.fill();
+        context.fillStyle='#725538';
+        context.fillRect(35,60,10,20);
+      }
+      
+      drawPineTexture(sheet4.context);
+      drawPineTexture(sheet5.context);
+      
+      // draw the scene
+      sheetengine.calc.calculateAllSheets();
+      sheetengine.drawing.drawScene(true);
+    </script>
+
+  </body>
+</html>

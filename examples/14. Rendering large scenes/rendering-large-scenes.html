@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;width:960px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #maincanvas{border:1px solid #DDD;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Rendering large scenes
+      </div>
+      
+      <canvas id="maincanvas" width="900" height="500"></canvas>
+      
+      <div class="content">
+
+        Sheetengine performs best when it displays relatively small number of sheets. If you want to display large scenes and place large number of sheets in the scene it is recommended that you only show small regions of the whole scene at once and load the rest of the world dynamically, as the the camera is being moved. In this example we first create a virtual map that consists of pre-defined sheet data:
+        
+        <div class="code">
+var map = [];
+for (var i=0; i&lt;50; i++) {
+  (function() {
+    var w = Math.random()*10 + 30;
+    var z = w;
+    var c = Math.floor(Math.random()*3);
+    map.push({
+      centerp: {x:Math.random()*1000 - 500, y:Math.random()*1000 - 500, z:z},
+      orientation: {alphaD:c == 0 ? 90 : 0, betaD:c == 1 ? 90 : 0, gammaD:c == 2 ? 90 : 0},
+      size: {w:w,h:w},
+      init: function() { 
+        var sheet = new sheetengine.Sheet(this.centerp, this.orientation, this.size);
+        sheet.context.fillStyle = c == 0 ? '#006' : c == 1 ? '#600' : '#060'; 
+        sheet.context.fillRect(0,0,w,w); 
+        return sheet;
+      }
+    });
+  })();
+}
+        </div>
+        
+        We also put basesheets into the map in a similar manner. Of course in a real-world example you would probably fetch map data from the server-side. Now, when we display sheets only a portion of the generated map will be shown. To keep track of which sheets to display we introduce a global variable to hold the coordinates of the current tile:
+        
+        <div class="code">
+var centertile = {x:0,y:0};
+        </div>
+        
+        We also have to check every time the camera moves whether we need to load a bunch of new sheets. When the character/camera reaches a certain boundary we call the loadAndRemoveSheets function that will handle loading new sheets from the map and remove all sheets that are already too far away to be displayed:
+        
+        <div class="code">
+var oldcentertile = { x:centertile.x, y:centertile.y };
+centertile.x = Math.round(character.centerp.x / 200);
+centertile.y = Math.round(character.centerp.y / 200);
+if (centertile.x != oldcentertile.x || centertile.y != oldcentertile.y) {
+  loadAndRemoveSheets(oldcentertile, centertile);
+
+  // calculate all sheets and redraw the full scene
+  sheetengine.calc.calculateAllSheets();
+  sheetengine.drawing.drawScene(true);
+} else {
+  // calculate changed sheets and draw changed regions of scene
+  sheetengine.calc.calculateChangedSheets();
+  sheetengine.drawing.drawScene();
+}
+        </div>
+        
+        Note, we call the calculateAllSheets method when new sheets are loaded. We could also call calculateChangedSheets, it would also work. The difference is in performance: the latter is much faster if only a couple of sheets are added, whereas if many sheets change the former performs better. Whichever suits you better depends on your application and how big the displayed portion of the global map you choose. The loadAndRemoveSheets function will use the destroy() method on sheets to remove them from the scene and use the init() function we defined above when generating the map to add new sheets:
+        
+        <div class="code">
+function loadAndRemoveSheets(oldcentertile, centertile) {
+  var boundary = { 
+    xmin: centertile.x * 200 - 300, 
+    xmax: centertile.x * 200 + 300, 
+    ymin: centertile.y * 200 - 300, 
+    ymax: centertile.y * 200 + 300 };
+  
+  // remove sheets that are far
+  for (var i=0;i&lt;map.length;i++) {
+    var sheetinfo = map[i];
+    if (sheetinfo.centerp.x &lt; boundary.xmin || 
+      sheetinfo.centerp.x &gt; boundary.xmax || 
+      sheetinfo.centerp.y &lt; boundary.ymin || 
+      sheetinfo.centerp.y &gt; boundary.ymax) {
+      if (sheetinfo.added) {
+        sheetinfo.sheet.destroy();
+        sheetinfo.added = false;
+      }
+    }
+  }
+  
+  // add new sheets
+  for (var i=0;i&lt;map.length;i++) {
+    var sheetinfo = map[i];
+    if (sheetinfo.centerp.x &lt; boundary.xmin || 
+      sheetinfo.centerp.x &gt; boundary.xmax || 
+      sheetinfo.centerp.y &lt; boundary.ymin || 
+      sheetinfo.centerp.y &gt; boundary.ymax)
+      continue;
+      
+    if (!sheetinfo.added) {
+      sheetinfo.sheet = sheetinfo.init();
+      sheetinfo.added = true;
+    }
+  }
+  
+  // translate background
+  sheetengine.scene.translateBackground(
+    {x:oldcentertile.x*200,y:oldcentertile.y*200}, 
+    {x:centertile.x*200,y:centertile.y*200}
+  );
+}
+        </div>
+
+        Notice we have to call the translateBackground method at the end, so that we can still use the relatively small background canvas whose size we defined in the init function even though we are moving the camera further beyond.
+        
+      </div>
+      
+    </div>
+
+    <script>
+      var canvasElement = document.getElementById('maincanvas');
+      sheetengine.scene.init(canvasElement, {w:900,h:500});
+      
+      var centertile = {x:0,y:0};
+
+      // define some basesheets
+      var map = [];
+      for (var x=-2; x<=2; x++) {
+        for (var y=-2; y<=2; y++) {
+          map.push({
+            centerp: { x: x * 200, y: y * 200, z: 0 },
+            orientation: {alphaD: 90, betaD: 0, gammaD: 0},
+            size: {w:200,h:200},
+            init: function() { 
+              var basesheet = new sheetengine.BaseSheet(this.centerp, this.orientation, this.size);
+              basesheet.color = '#5D7E36';
+              return basesheet;
+            }
+          });
+        }
+      }
+      
+      // define some sheets
+      for (var i=0; i<50; i++) {
+        (function() {
+          var w = Math.random()*10 + 30;
+          var z = w;
+          var c = Math.floor(Math.random()*3);
+          map.push({
+            centerp: {x:Math.random()*1000 - 500, y:Math.random()*1000 - 500, z:z},
+            orientation: {alphaD:c == 0 ? 90 : 0, betaD:c == 1 ? 90 : 0, gammaD:c == 2 ? 90 : 0},
+            size: {w:w,h:w},
+            init: function() { 
+              var sheet = new sheetengine.Sheet(this.centerp, this.orientation, this.size);
+              sheet.context.fillStyle = c == 0 ? '#006' : c == 1 ? '#600' : '#060'; 
+              sheet.context.fillRect(0,0,w,w); 
+              return sheet;
+            }
+          });
+        })();
+      }
+      
+      function loadAndRemoveSheets(oldcentertile, centertile) {
+        var boundary = { xmin: centertile.x * 200 - 300, xmax: centertile.x * 200 + 300, ymin: centertile.y * 200 - 300, ymax: centertile.y * 200 + 300 };
+        
+        // remove sheets that are far
+        for (var i=0;i<map.length;i++) {
+          var sheetinfo = map[i];
+          if (sheetinfo.centerp.x < boundary.xmin || sheetinfo.centerp.x > boundary.xmax || sheetinfo.centerp.y < boundary.ymin || sheetinfo.centerp.y > boundary.ymax) {
+            if (sheetinfo.added) {
+              sheetinfo.sheet.destroy();
+              sheetinfo.added = false;
+            }
+          }
+        }
+        
+        // add new sheets
+        for (var i=0;i<map.length;i++) {
+          var sheetinfo = map[i];
+          if (sheetinfo.centerp.x < boundary.xmin || sheetinfo.centerp.x > boundary.xmax || sheetinfo.centerp.y < boundary.ymin || sheetinfo.centerp.y > boundary.ymax)
+            continue;
+            
+          if (!sheetinfo.added) {
+            sheetinfo.sheet = sheetinfo.init();
+            sheetinfo.added = true;
+          }
+        }
+        
+        // translate background
+        sheetengine.scene.translateBackground(
+          {x:oldcentertile.x*200,y:oldcentertile.y*200}, 
+          {x:centertile.x*200,y:centertile.y*200}
+        );
+      }
+      
+      // function for creating a character with a body and 2 legs
+      function defineCharacter(centerp) {
+        // character definition for animation with sheet motion
+        var body = new sheetengine.Sheet({x:0,y:0,z:15}, {alphaD:0,betaD:0,gammaD:0}, {w:11,h:14});
+        var backhead = new sheetengine.Sheet({x:0,y:-1,z:19}, {alphaD:0,betaD:0,gammaD:0}, {w:8,h:6});
+        backhead.context.fillStyle = '#550';
+        backhead.context.fillRect(0,0,8,6);
+        // legs
+        var leg1 = new sheetengine.Sheet({x:-3,y:0,z:4}, {alphaD:0,betaD:0,gammaD:0}, {w:5,h:8});
+        leg1.context.fillStyle = '#00F';
+        leg1.context.fillRect(0,0,5,10);
+        var leg2 = new sheetengine.Sheet({x:3,y:0,z:4}, {alphaD:0,betaD:0,gammaD:0}, {w:5,h:8});
+        leg2.context.fillStyle = '#00F';
+        leg2.context.fillRect(0,0,5,10);
+
+        // define character object
+        var character = new sheetengine.SheetObject(centerp, {alphaD:0,betaD:0,gammaD:-90}, [body,backhead,leg1,leg2], {w:70, h:110, relu:10, relv:25});
+          
+        character.leg1 = leg1;
+        character.leg2 = leg2;
+        
+        var ctx = body.context;
+        
+        // head
+        ctx.fillStyle = '#FF0';
+        ctx.fillRect(2,2,7,4);
+        ctx.fillStyle = '#550';
+        ctx.fillRect(2,0,7,2);
+        ctx.fillRect(2,2,1,1);
+        ctx.fillRect(8,2,1,1);
+
+        // body
+        ctx.fillStyle = '#F0F';
+        ctx.fillRect(0,6,11,7);
+          
+        // hands
+        ctx.fillStyle = '#FF0';
+        ctx.fillRect(0,11,1,2);
+        ctx.fillRect(10,11,1,2);
+        
+        character.animationState = 0;
+        return character;
+      };
+      
+      // function for animating character's sheets
+      function animateCharacter(character) {
+        var state = Math.floor( (character.animationState % 8) / 2);
+        var dir = (state == 0 || state == 3) ? 1 : -1;
+        
+        character.rotateSheet(character.leg1, {x:0,y:0,z:8}, {x:1,y:0,z:0}, dir * Math.PI/8);
+        character.rotateSheet(character.leg2, {x:0,y:0,z:8}, {x:1,y:0,z:0}, -dir * Math.PI/8);
+      }      
+      
+      
+      // define a character
+      var character = defineCharacter({x:0,y:0,z:0});
+
+      loadAndRemoveSheets({x:0,y:0}, centertile);
+      
+      // draw initial scene
+      sheetengine.calc.calculateAllSheets();
+      sheetengine.drawing.drawScene(true);
+      
+      // move character around
+      var maxsteps = 40;
+      var steps = 0;
+      var direction = {x:-5, y:0, z:0};
+      setInterval(function() {
+        character.move(direction);
+        if (++steps >= maxsteps) {
+          if (direction.x == -5) { direction.x = 0; direction.y = -5; character.rotate({x:0, y:0, z: 1}, Math.PI/2); }
+          else if (direction.y == -5) { direction.x = 0; direction.y = 5; character.rotate({x:0, y:0, z: 1}, Math.PI); }
+          else if (direction.y == 5) { direction.x = 5; direction.y = 0; character.rotate({x:0, y:0, z: 1}, -Math.PI/2); }
+          else if (direction.x == 5) { direction.x = -5; direction.y = 0; character.rotate({x:0, y:0, z: 1}, Math.PI); }
+          steps = 0;
+        }
+        
+        animateCharacter(character);
+        character.animationState++;
+
+        sheetengine.scene.setCenter(character.centerp);
+
+        // check if character moved far from the center, in which case we should load new sheets
+        var oldcentertile = { x:centertile.x, y:centertile.y };
+        centertile.x = Math.round(character.centerp.x / 200);
+        centertile.y = Math.round(character.centerp.y / 200);
+        if (centertile.x != oldcentertile.x || centertile.y != oldcentertile.y) {
+          loadAndRemoveSheets(oldcentertile, centertile);
+
+          // calculate all sheets and redraw the full scene
+          sheetengine.calc.calculateAllSheets();
+          sheetengine.drawing.drawScene(true);
+        } else {
+          // calculate changed sheets and draw changed regions of scene
+          sheetengine.calc.calculateChangedSheets();
+          sheetengine.drawing.drawScene();
+        }
+        
+      }, 30);
+      
+    </script>
+
+  </body>
+</html>

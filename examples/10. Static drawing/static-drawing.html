@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;width:960px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #maincanvas{border:1px solid #DDD;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Static drawing
+      </div>
+      
+      <canvas id="maincanvas" width="900" height="500"></canvas>
+      
+      <div class="content">
+
+        To draw arbitrary things on the canvas, you can use the HTML5 context of the main canvas, just make sure you draw on it after calling drawScene, since it will redraw the whole canvas. To determine the coordinates of a point in the rendered world we call the getPointuv function:
+        
+        <div class="code">
+var ctx = sheetengine.context;
+ctx.save();
+ctx.scale(1, 0.5);
+ctx.lineWidth = 3;
+ctx.globalAlpha = 0.5;
+ctx.strokeStyle = '#AAF';
+ctx.beginPath();
+var characterp = sheetengine.drawing.getPointuv(character.centerp);
+ctx.arc(characterp.u, characterp.v*2, 15, 0, Math.PI*2);
+ctx.stroke();
+ctx.restore();
+        </div>
+        
+      </div>
+      
+    </div>
+
+    <script>
+      var canvasElement = document.getElementById('maincanvas');
+      sheetengine.scene.init(canvasElement, {w:900,h:500});
+      
+      // define some basesheets
+      for (var x=-1; x<=1; x++) {
+        for (var y=-1; y<=1; y++) {
+          var basesheet = new sheetengine.BaseSheet({x:x*200,y:y*200,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:200,h:200});
+          basesheet.color = '#5D7E36';
+        }
+      }
+      
+      // function for creating a character with a body and 2 legs
+      function defineCharacter(centerp) {
+        // character definition for animation with sheet motion
+        var body = new sheetengine.Sheet({x:0,y:0,z:15}, {alphaD:0,betaD:0,gammaD:0}, {w:11,h:14});
+        var backhead = new sheetengine.Sheet({x:0,y:-1,z:19}, {alphaD:0,betaD:0,gammaD:0}, {w:8,h:6});
+        backhead.context.fillStyle = '#550';
+        backhead.context.fillRect(0,0,8,6);
+        // legs
+        var leg1 = new sheetengine.Sheet({x:-3,y:0,z:4}, {alphaD:0,betaD:0,gammaD:0}, {w:5,h:8});
+        leg1.context.fillStyle = '#00F';
+        leg1.context.fillRect(0,0,5,10);
+        var leg2 = new sheetengine.Sheet({x:3,y:0,z:4}, {alphaD:0,betaD:0,gammaD:0}, {w:5,h:8});
+        leg2.context.fillStyle = '#00F';
+        leg2.context.fillRect(0,0,5,10);
+
+        // define character object
+        var character = new sheetengine.SheetObject(centerp, {alphaD:0,betaD:0,gammaD:90}, [body,backhead,leg1,leg2], {w:70, h:110, relu:10, relv:25});
+          
+        character.leg1 = leg1;
+        character.leg2 = leg2;
+        
+        var ctx = body.context;
+        
+        // head
+        ctx.fillStyle = '#FF0';
+        ctx.fillRect(2,2,7,4);
+        ctx.fillStyle = '#550';
+        ctx.fillRect(2,0,7,2);
+        ctx.fillRect(2,2,1,1);
+        ctx.fillRect(8,2,1,1);
+
+        // body
+        ctx.fillStyle = '#F0F';
+        ctx.fillRect(0,6,11,7);
+          
+        // hands
+        ctx.fillStyle = '#FF0';
+        ctx.fillRect(0,11,1,2);
+        ctx.fillRect(10,11,1,2);
+        
+        character.animationState = 0;
+        return character;
+      };
+      
+      // function for animating character's sheets
+      function animateCharacter(character) {
+        var state = Math.floor( (character.animationState % 8) / 2);
+        var dir = (state == 0 || state == 3) ? 1 : -1;
+        
+        character.rotateSheet(character.leg1, {x:0,y:0,z:8}, {x:1,y:0,z:0}, dir * Math.PI/8);
+        character.rotateSheet(character.leg2, {x:0,y:0,z:8}, {x:1,y:0,z:0}, -dir * Math.PI/8);
+      }      
+      
+      
+      // define a character
+      var character = defineCharacter({x:0,y:0,z:0});
+      
+
+      // draw initial scene
+      sheetengine.calc.calculateAllSheets();
+      sheetengine.drawing.drawScene(true);
+      
+      // move character around
+      var maxsteps = 20;
+      var steps = 0;
+      var direction = {x:5, y:0, z:0};
+      var textanimating = false;
+      var textz = 0;
+      var laps = 0;
+      setInterval(function() {
+        character.move(direction);
+        if (++steps >= maxsteps) {
+          if (direction.x == 5) { direction.x = 0; direction.y = 5; }
+          else if (direction.y == 5) { direction.x = -5; direction.y = 0; }
+          else if (direction.x == -5) { direction.x = 0; direction.y = -5; }
+          else if (direction.y == -5) { direction.x = 5; direction.y = 0; }
+          steps = 0;
+          character.rotate({x:0, y:0, z: 1}, Math.PI/2);
+
+          if (character.centerp.x == 100 && character.centerp.y == 100) {
+            textanimating = true;
+            textz = 0;
+            laps++;
+          }
+        }
+        
+        animateCharacter(character);
+        character.animationState++;
+        
+        // calculate sheets and draw scene
+        sheetengine.calc.calculateChangedSheets();
+        sheetengine.drawing.drawScene();
+        
+        // static drawing: draw a circle around the character
+        var ctx = sheetengine.context;
+        ctx.save();
+        ctx.scale(1, 0.5);
+        ctx.lineWidth = 3;
+        ctx.globalAlpha = 0.5;
+        ctx.strokeStyle = '#AAF';
+        ctx.beginPath();
+        var characterp = sheetengine.drawing.getPointuv(character.centerp);
+        ctx.arc(characterp.u, characterp.v*2, 15, 0, Math.PI*2);
+        ctx.stroke();
+        
+        // draw circle at static point
+        ctx.strokeStyle = '#FAA';
+        ctx.beginPath();
+        var p = sheetengine.drawing.getPointuv({x:100,y:100,z:0});
+        ctx.arc(p.u, p.v*2, 15, 0, Math.PI*2);
+        ctx.stroke();
+        
+        ctx.restore();
+        
+        if (textanimating) {
+          ctx.save();
+          if (textz < 20)
+            ctx.globalAlpha = textz/20;
+          if (textz > 60)
+            ctx.globalAlpha = (80-textz)/20;
+
+          if (++textz >= 80)
+            textanimating = false;
+            
+          ctx.font = '14px sans-serif';
+          ctx.strokeStyle = '#FFF';
+          var text = laps == 1 ? '1 lap done' : laps+' laps done';
+          ctx.strokeText(text, p.u, p.v - 40 - textz);
+          ctx.restore();
+        }
+        
+      }, 30);
+      
+    </script>
+
+  </body>
+</html>

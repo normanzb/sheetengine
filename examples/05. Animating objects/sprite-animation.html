@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;width:960px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #maincanvas{border:1px solid #DDD;}
+    .spriteimages{margin:10px 40px 10px 40px;}
+    .spriteimages img{background-color:#AAA;margin-right:5px;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Sprite animation
+      </div>
+      
+      <canvas id="maincanvas" width="900" height="500"></canvas>
+      
+      <div class="content">
+        
+        Sheetengine was designed to give you the ability to define your own models using sheets. Intersections and shadows for your objects are automatically handled by the engine. However if you want to use sprites it is also possible: simply define an object with a singe sheet directed towards the camera and switch off shadows cast on and by the sheet:
+        
+        <div class="code">
+var sheet = new sheetengine.Sheet({x:0,y:0,z:22}, {alphaD:0,betaD:0,gammaD:45}, {w:30,h:45});
+var obj = new sheetengine.SheetObject(
+  {x:0,y:0,z:0}, 
+  {alphaD:0,betaD:0,gammaD:0}, 
+  [sheet], 
+  {w:40,h:60,relu:20,relv:50});
+obj.setShadows(false, false);
+        </div>
+        
+        The setShadows function accepts two booleans: castshadows (set to false if you don't want the sheet/object to cast shadows on other sheets and the ground) and allowshadows (set to false if you don't want other sheets to cast shadows on this sheet/object). Let's load all the images that correspond to the different animation states of the sprite.
+        
+        <div class="code">
+var images = [];
+for (var i=1; i&lt;=5; i++) {
+  var img = new Image();
+  images.push(img);
+  img.src = 'images/'+i+'.png';
+}
+        </div>
+        
+        Notice that these images already contain the shadows cast by the object:
+        
+        <div class="spriteimages">
+          <img src="images/1.png" />
+          <img src="images/2.png" />
+          <img src="images/3.png" />
+          <img src="images/4.png" />
+          <img src="images/5.png" />
+        </div>
+        
+        From here you only have to use the 2D rendering context to draw the different images on the sheet's canvas:
+        
+        <div class="code">
+var animationState = Math.floor((steps % 10) / 2);
+var img = images[animationState];
+sheet.context.clearRect(0,0,30,45);
+sheet.context.drawImage(img, 0, 0);
+sheet.canvasChanged();
+        </div>
+        
+        To flip the images around simply rotate the object itself with 180 degrees:
+        
+        <div class="code">
+obj.rotate({x:0, y:0, z:1}, Math.PI);
+        </div>
+        
+        
+      </div>
+      
+    </div>
+
+    <script>
+      var canvasElement = document.getElementById('maincanvas');
+      sheetengine.scene.init(canvasElement, {w:900,h:500});
+      
+      // define some basesheets
+      for (var x=-1; x<=1; x++) {
+        for (var y=-1; y<=1; y++) {
+          var basesheet = new sheetengine.BaseSheet({x:x*200,y:y*200,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:200,h:200});
+          basesheet.color = '#5D7E36';
+        }
+      }
+      
+      // load all images
+      var images = [];
+      for (var i=1; i<=5; i++) {
+        var img = new Image();
+        images.push(img);
+        img.src = 'images/'+i+'.png';
+      }
+      
+
+      // define a custom object - we will use a single sheet
+      var sheet = new sheetengine.Sheet({x:0,y:0,z:22}, {alphaD:0,betaD:0,gammaD:45}, {w:30,h:45});
+      
+      var obj = new sheetengine.SheetObject({x:0,y:0,z:0}, {alphaD:0,betaD:0,gammaD:0}, [sheet], {w:40,h:60,relu:20,relv:50});
+      obj.setShadows(false, false);
+      
+      // draw initial scene
+      sheetengine.calc.calculateAllSheets();
+      sheetengine.drawing.drawScene(true);
+      
+      // move object around
+      var maxsteps = 50;
+      var steps = 0;
+      var direction = 1;
+      setInterval(function() {
+        var disp = direction;
+        obj.move({x:disp,y:-disp,z:0});
+        if (++steps >= maxsteps) {
+          direction = direction == 1 ? -1 : 1;
+          steps = 0;
+          obj.rotate({x:0, y:0, z:1}, Math.PI);
+        }
+
+        // animate sprite by drawing different images on sheet canvas
+        var animationState = Math.floor((steps % 10) / 2);
+        var img = images[animationState];
+        sheet.context.clearRect(0,0,30,45);
+        sheet.context.drawImage(img, 0, 0);
+        sheet.canvasChanged();
+        
+        
+        // calculate sheets and draw scene
+        sheetengine.calc.calculateChangedSheets();
+        sheetengine.drawing.drawScene();
+      }, 30);
+      
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;width:960px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #maincanvas{border:1px solid #DDD;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Animating sheet texture
+      </div>
+      
+      <canvas id="maincanvas" width="900" height="500"></canvas>
+      
+      <div class="content">
+        
+        To animate the texture of an object sheet simply use the 2D rendering context: 
+        
+        <div class="code">
+sheet.context.fillStyle = '#009';
+sheet.context.beginPath();
+sheet.context.arc(radius, radius, radius, 0, Math.PI * 2);
+sheet.context.fill();
+sheet.context.fillStyle = '#FFF';
+sheet.context.beginPath();
+var x = Math.sin(angle) * 15;
+var y = Math.cos(angle) * 15;
+sheet.context.arc(radius - x, radius - y, 5, 0, Math.PI * 2);
+sheet.context.fill();
+        </div>
+
+        After drawing on the canvas of the sheet you will have to call the sheet's canvasChanged function to make sure your changes will be reflected on the main canvas:
+
+        <div class="code">
+sheet.canvasChanged();
+        </div>
+        
+      </div>
+      
+    </div>
+    
+    <script>
+      var canvasElement = document.getElementById('maincanvas');
+      sheetengine.scene.init(canvasElement, {w:900,h:500});
+
+      // define some basesheets
+      for (var x=-1; x<=1; x++) {
+        for (var y=-1; y<=1; y++) {
+          var basesheet = new sheetengine.BaseSheet({x:x*200,y:y*200,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:200,h:200});
+          basesheet.color = '#5D7E36';
+        }
+      }
+
+      // define a custom object
+      var radius = 20;
+      var sheet = new sheetengine.Sheet({x:0,y:0,z:radius}, {alphaD:0,betaD:0,gammaD:0}, {w:40,h:40});
+      
+      function drawSheetTexture(sheet, angle) {
+        sheet.context.fillStyle = '#009';
+        sheet.context.beginPath();
+        sheet.context.arc(radius, radius, radius, 0, Math.PI * 2);
+        sheet.context.fill();
+        sheet.context.fillStyle = '#FFF';
+        sheet.context.beginPath();
+        var x = Math.sin(angle) * 15;
+        var y = Math.cos(angle) * 15;
+        sheet.context.arc(radius - x, radius - y, 5, 0, Math.PI * 2);
+        sheet.context.fill();
+        
+        // call this so shadows and object will be redrawn
+        sheet.canvasChanged();
+      }
+      drawSheetTexture(sheet, 0);
+
+      var obj = new sheetengine.SheetObject({x:0,y:0,z:0}, {alphaD:0,betaD:0,gammaD:0}, [sheet], {w:80,h:80,relu:40,relv:50});
+
+      // draw initial scene
+      sheetengine.calc.calculateAllSheets();
+      sheetengine.drawing.drawScene(true);
+      
+      // move object around
+      var maxsteps = 150;
+      var steps = 0;
+      var angle = 0;
+      var direction = 1;
+      setInterval(function() {
+        angle += direction * Math.PI/60;
+        var disp = 2 * radius * angle / Math.PI;
+        obj.setPosition({x:-disp,y:0,z:0});
+        if (++steps >= maxsteps) {
+          direction = direction == 1 ? -1 : 1;
+          steps = 0;
+        }
+        
+        // animate texture
+        drawSheetTexture(sheet, angle);
+        
+        // calculate sheets and draw scene
+        sheetengine.calc.calculateChangedSheets();
+        sheetengine.drawing.drawScene();
+      }, 30);
+      
+    </script>
+
+  </body>
+</html>

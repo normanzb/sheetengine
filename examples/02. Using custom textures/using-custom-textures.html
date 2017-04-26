@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <style>
+    .main{width:900px; margin:50px auto 0 auto;line-height:1.5;font-family: sans-serif;}
+    .header{font:38px sans-serif;margin-bottom:20px;}
+    .code{margin:0px 40px 10px 40px;width:960px;font-family:monospace;white-space: pre;}
+    .content{margin:20px 0 60px;}
+    #maincanvas{border:1px solid #DDD;}
+  </style>
+  <body>
+    <script src="../sheetengine.js"></script>
+    
+    <div class="main">
+      <div class="header">
+        Using custom textures
+      </div>
+      
+      <canvas id="maincanvas" width="900" height="500"></canvas>
+
+      <div class="content">
+        When you create a sheet you can always access its HTML5 2d drawing context using the context property. Thus it is quite easy to use custom textures, since you just have to draw on the sheet's canvas using its context:
+        
+        <div class="code">
+var sheet = new sheetengine.Sheet({x:0,y:0,z:40}, {alphaD:0,betaD:0,gammaD:0}, {w:80,h:80});
+var img = new Image();
+img.onload = function() {
+  sheet.context.drawImage(img, 0,0);
+  
+  // draw the scene
+  sheetengine.calc.calculateChangedSheets();
+  sheetengine.drawing.drawScene(true);
+};
+img.src = 'images/myimage.png';      
+        </div>
+        
+        Just make sure you call drawScene only after the image has been loaded and drawn onto the canvas.
+        
+      </div>
+      
+    </div>
+
+    <script>
+      var canvasElement = document.getElementById('maincanvas');
+      sheetengine.scene.init(canvasElement, {w:900,h:500});
+
+      // define some basesheets
+      for (var x=-1; x<=1; x++) {
+        for (var y=-1; y<=1; y++) {
+          var basesheet = new sheetengine.BaseSheet({x:x*200,y:y*200,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:200,h:200});
+          basesheet.color = '#5D7E36';
+        }
+      }
+
+      // define a sheet with texture loaded from external image
+      var sheet = new sheetengine.Sheet({x:0,y:0,z:40}, {alphaD:0,betaD:0,gammaD:0}, {w:80,h:80});
+      var img = new Image();
+      img.onload = function() {
+        sheet.context.drawImage(img, 0,0);
+        
+        // draw the scene
+        sheetengine.calc.calculateChangedSheets();
+        sheetengine.drawing.drawScene(true);
+      };
+      img.src = 'images/myimage.png';      
+      
+    </script>
+
+  </body>
+</html>
