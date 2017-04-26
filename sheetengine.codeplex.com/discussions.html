@@ -1,0 +1,845 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="" prefix="og: http://ogp.me/ns# profile: http://ogp.me/ns/profile#">
+    
+    
+    
+    
+
+    
+    
+<!-- Mirrored from sheetengine.codeplex.com/discussions by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Apr 2017 15:45:08 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <meta id="CompatabilityMode" http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../download-codeplex.sec.s-msft.com/css/v21050/i1970439/StyleSheet.css" id="MasterCss" rel="stylesheet" type="text/css" />
+        <link rel="SHORTCUT ICON" href="http://www.codeplex.com/favicon.ico" />
+        <title>sheetengine - Isometric HTML5 JavaScript Display Engine - Discussions</title>
+        
+        <!--
+        Third party scripts and code linked to or referenced from this website are licensed to you by the parties that own such code,
+        not by Microsoft.  See ASP.NET Ajax CDN Terms of Use – http://www.asp.net/ajaxlibrary/CDN.ashx.
+        -->
+        <script src="../ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js" type="text/javascript"></script>
+        
+        <script type="text/javascript">
+            if (typeof jQuery === 'undefined') {
+                document.write(unescape("%3Cscript src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+            }
+        </script>
+
+        <script src="../ajax.aspnetcdn.com/ajax/jquery.ui/1.8.6/jquery-ui.min.js" type="text/javascript"></script>
+        
+        <script type="text/javascript">
+            if (typeof jQuery.ui === 'undefined') {
+                document.write(unescape("%3Cscript src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js' type='text/javascript'%3E%3C/script%3E"));
+            }
+        </script>
+
+        
+            <script type="text/javascript">
+                var appInsights=window.appInsights||function(config){
+                    function s(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},r=document,f=window,e="script",o=r.createElement(e),i,u;for(o.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(e)[0].parentNode.appendChild(o),t.cookie=r.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)s("track"+i.pop());return config.disableExceptionTracking||(i="onerror",s("_"+i),u=f[i],f[i]=function(config,r,f,e,o){var s=u&&u(config,r,f,e,o);return s!==!0&&t["_"+i](config,r,f,e,o),s}),t
+                }({
+                    instrumentationKey:"3a5c29be-06e6-465e-862f-c10a5d93d3a2"
+                });
+    
+                window.appInsights=appInsights;
+                appInsights.trackPageView();
+            </script>
+        
+    <style type="text/css">.SideBar, .SideBarPadding{display:none;}.MainContent{width:auto;}.SiteContentTable{width:100%;}</style>
+    <style id="ProjectStyles" type="text/css">
+        .SiteHeader, .SiteHeaderLeft {
+            height:45px !important;
+            overflow:hidden;
+        }
+        .SiteContent 
+        {
+            padding: 0 0 1em 0;
+            margin-top:0;
+            min-height:225px;
+            border-right: 1px solid lightgrey;
+            border-left: 1px solid lightgrey;
+            border-bottom: 1px solid lightgrey;
+        }
+        .IE table.MinWidthContent
+        {
+	        table-layout: auto !important;	
+        }
+    </style>
+    
+    
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+
+    
+    
+    <meta id="WTProjectName" name="WT.pi" content="sheetengine"/>
+    
+
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href='http://sheetengine.codeplex.com/rsd' />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" title="WLWManifest" href='http://sheetengine.codeplex.com/wlwmanifest.xml' />
+    
+    
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine" url="http://sheetengine.codeplex.com/project/feeds/rss"/>
+    
+        
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Discussions" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fforum%2fsheetengine"/>
+        
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Issues" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fworkitem%2fsheetengine"/>
+        
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Downloads" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2frelease%2fsheetengine"/>
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Reviews" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2freview%2fsheetengine"/>
+        
+    
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Source&#32;code" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fsourcecontrol%2fsheetengine"/>
+        <link rel="alternate" type="application/rss+xml" title="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine&#32;-&#32;Wiki" url="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fwiki%2fsheetengine"/>
+    
+        
+    
+        <meta content="summary" name="twitter:card" /><meta content="@CodePlex" name="twitter:site" /><meta content="http://sheetengine.codeplex.com/discussions?ProjectName=sheetengine" name="twitter:url" /><meta content="sheetengine - Isometric HTML5 JavaScript Display Engine" name="twitter:title" /><meta content="Sheetengine is an HTML5 canvas based isometric display engine for JavaScript. It features textures, z-ordering, shadows, intersecting sheets, object movements." name="twitter:description" /><meta content="http://www.codeplex.com/Images/codeplex.png" name="twitter:image" /><meta content="CodePlex" property="og:site_name" /><meta content="http://sheetengine.codeplex.com/discussions?ProjectName=sheetengine" property="og:url" /><meta content="object" property="og:type" /><meta content="sheetengine - Isometric HTML5 JavaScript Display Engine" property="og:title" /><meta content="Sheetengine is an HTML5 canvas based isometric display engine for JavaScript. It features textures, z-ordering, shadows, intersecting sheets, object movements." property="og:description" /><meta content="http://www.codeplex.com/Images/codeplex.png" property="og:image" />
+        
+
+    </head>
+    
+    <body>
+        <script src="http://download-codeplex.sec.s-msft.com/scripts/v21050/i5/ScriptLoader.ashx" type="text/javascript"></script>
+        <form id="aspnetForm" autocomplete="off" method="POST" enctype="multipart/form-data">
+            <input name="__RequestVerificationToken" type="hidden" value="rw4D8UshAijkhz3mRg4WCPPfnG8ZNnJXFxqzEwwawsvHWaxp0LO4x0eJw_alE3depKvNaVHxU-j7F2WfOiBev8ToU4sPrT6UYvlGIABgrXqUvw-ELYaLjZZluWcbmAfHLmYX2w2" />
+            
+            <div id="UpdateProgressPanel" class="loading_animation" style="display:none;">
+                <div class="row">
+                    <h2 class="anim_h2">
+                        <span id="UpdateProgressText">Updating...</span>
+                        <span id="animatedLoadingIconContainer">
+                            <img id="animatedLoadingIcon" src="http://download-codeplex.sec.s-msft.com/Images/v21050/loading_animation.gif" class="anim_img"/>
+                        </span>
+                    </h2>
+                </div>
+            </div>
+            
+            <div style="display:none;">
+                
+                <img id="BlankImage" style="width:0;height:0;" src="http://download-codeplex.sec.s-msft.com/Images/v21050/blank.png" onload="self.logoImageLoaded=true;"/>
+
+                <script language="javascript" type="text/javascript">
+                    var date = new Date();
+                    var timezoneOffset = date.getTimezoneOffset() / 60 * -1;
+                    var timezoneOffsetCookie = getCookie("TimezoneOffset");
+                    var firstTimeSetTimezoneCookie = false;
+
+                    if (timezoneOffsetCookie == null || timezoneOffsetCookie != timezoneOffset) {
+                        firstTimeSetTimezoneCookie = true;
+                        document.cookie = "TimezoneOffset=" + timezoneOffset + '; domain=.codeplex.com;expires=Thu, 26 Apr 2018 08:44:59 UTC';
+                    }
+                </script>
+            </div>
+            
+            
+            <div id="banner">
+                <div id="message">
+                    <strong>CodePlex is shutting down.</strong><span>  Read about the shutdown plan, including archive and migration information, on <a href="https://aka.ms/codeplex-announcement">Brian Harry's blog.</a></span>
+                </div>
+            </div>
+            
+
+            <div id="header">
+                <div id="header_wrap" class="row">
+                    <p id="logo"><a href="http://www.codeplex.com/">Code<span class="semi">Plex</span></a><span id="tagline">Project Hosting for Open Source Software</span></p>
+                    
+
+<ul id="nav">
+
+    <li><a href="http://sheetengine.codeplex.com/site/register/new" id="registerLink" class="ZoomFix">Register</a></li>
+    <li ><a class="SignInLink" href="https://www.codeplex.com/site/login?RedirectUrl=http%3a%2f%2fsheetengine.codeplex.com%2fdiscussions" id="signInLink">Sign In</a></li>
+  
+    <li class="last"><a class="rss_site_icon" href="http://www.codeplex.com/site/feeds/rss" type="application/rss+xml" rel="Alternate" title="CodePlex Site Activity"></a></li>
+</ul>
+                    <input id="searchsite" name="searchsite" maxlength="500" type="text" value="" /><span id="search_mag"><a id="submitSearch" name="submitSearch" class="magnify" title="Search" href="#"></a></span>
+                    <script>
+	$(document).ready(function() {
+    var searchButton = $('#submitSearch'),
+        searchBar = $('#searchsite');
+
+    // Register our own handler for the search event while we wait for the SearchBox script to load.
+    searchButton.bind('click.backupSearchBox', doProjectSearch);
+    searchBar.bind('keypress.backupSearchBox', function(e) { if ($keyCode(e) === 13) { doProjectSearch(); return false; } });
+
+    function cleanupSearchEvents() {
+        // If the SearchBox was loaded, unregister our handlers.
+        if (epx_loaded) {
+            searchButton.unbind('.backupSearchBox');
+            searchBar.unbind('.backupSearchBox');
+        }
+    }
+
+    $loadScript('http://i4.services.social.microsoft.com/search/Widgets/SearchBox.jss?appid=1000&amp;scopeid=1&amp;boxId=searchsite&amp;btnId=submitSearch&amp;watermark=Search%20all%20projects&amp;overrideWatermark=true&amp;searchLocation=%2fsite%2fsearch&amp;allowEmptySearch=true&amp;focusOnInit=False&amp;minimumTermLength=3', cleanupSearchEvents);
+})
+function doProjectSearch() {
+    
+    var url = '/site/search';
+
+    //If search term is not same as watermark
+    if($('#searchsite').val() != 'Search all projects')    
+    {        
+        url = url + '?query=' + encodeURIComponent($('#searchsite').val());
+    }
+
+    
+    var callback = '';
+    if (callback.length > 0 && eval('typeof ' + callback) != 'undefined')
+        url += eval(callback + '()');
+
+    window.location.href = url;
+    return false;
+}
+</script>
+                </div>
+            </div>
+            
+            <div id="wrap">
+                
+    <div id="sub_heading" class="row">
+        
+        <div id="ProjectHeader">
+            <div id="project_title_row" class="row">
+                <div id="project_logo">
+                    
+    
+    <div id="project_logo_and_text">
+        <div class="logo_left">
+            <a href="http://sheetengine.codeplex.com/"><img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=sheetengine&amp;DownloadId=421581&amp;Build=21050" alt="sheetengine&#32;-&#32;Isometric&#32;HTML5&#32;JavaScript&#32;Display&#32;Engine" /></a>
+        </div>
+        <h1 class="text_right"><div><a href="http://sheetengine.codeplex.com/" id="ProjectTitle4">sheetengine - Isometric HTML5 JavaScript Display Engine</a></div></h1>
+    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <div id="ProjectDetailsDiv">
+            
+        </div>
+		<div class="clear"></div>
+        
+
+<ul id="page_box_links">
+	<li id="homeTabCell" style="width: 63px;"><a id="homeTab" href="http://sheetengine.codeplex.com/" class="box_home">home</a><div></div></li>
+    
+	<li id="sourceTabCell" style="width:113px;"><a id="sourceTab" href="http://sheetengine.codeplex.com/SourceControl/latest" class="box_source">source code</a><div></div></li>
+    
+	<li id="releasesTabCell" style="width:105px;"><a id="releasesTab" href="http://sheetengine.codeplex.com/releases" class="box_downloads">downloads</a><div></div></li>
+    
+    <li id="documentationTabCell" style="width:143px;"><a id="documentationTab" href="http://sheetengine.codeplex.com/documentation" class="box_documentation">documentation</a><div></div></li>
+    
+	<li id="discussionTabCell" style="width:112px;"><a id="discussionTab" href="http://sheetengine.codeplex.com/discussions" class="discussions_active">discussions</a><div></div></li>
+    
+	<li id="workItemsTabCell" style="width:70px;"><a id="workItemsTab" href="http://sheetengine.codeplex.com/workitem/list/basic" class="box_issue">issues</a><div></div></li>
+    
+	<li id="peopleTabCell" style="width:70px;"><a id="peopleTab" href="http://sheetengine.codeplex.com/team/view" class="box_people">people</a><div></div></li>
+	<li id="licenseTabCell" style="width:70px;"><a id="licenseTab" href="http://sheetengine.codeplex.com/license" class="box_license">license</a><div></div></li>
+    
+    <span class="stretch"></span>
+</ul>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#page_box_links').applyLastClassToList();
+    });
+</script>
+		    <div class="clear"></div>
+            
+     <td>
+       
+
+<div>
+    
+    <div id="actionBar" class="action_bar">
+        <ul id="actionBar_ul" class="actionBar_sublinks subtab_right" style="vertical-align: middle;">
+
+            
+
+                <li id="li_actionbar_creatediscussion" data-action-id="actionbar_creatediscussion" data-action-type="Navigate" class="actionBar_sublinks" data-options-id="efe7525a-95bd-4d2b-bb1e-88e742d41e18">
+                
+                    <script class="options" defer="defer" id="efe7525a-95bd-4d2b-bb1e-88e742d41e18" type="application/json">{"navigate-url":"http://sheetengine.codeplex.com/discussions/create"}</script> 
+                    
+                    <div class="actionBar_custom_content"></div>
+
+                    <a href="#" id="actionbar_creatediscussion" title="Start a New Thread" class="action_bar_item_link">
+                        <img id="img_actionbar_creatediscussion" class="action_bar_item_image" src="http://download-codeplex.sec.s-msft.com/Images/v21050/actionbar_newitem.png" style="vertical-align: middle" />
+                        New Thread
+                    </a>
+
+                </li>
+
+            
+
+                <li id="li_actionbar_subscribe" data-action-id="actionbar_subscribe" data-action-type="PopUp" class="actionBar_sublinks" data-options-id="5fd78152-0ea0-4f5a-b803-675fe0cd11ff">
+                
+                    <script class="options" defer="defer" id="5fd78152-0ea0-4f5a-b803-675fe0cd11ff" type="application/json">{}</script> 
+                    
+                    <div class="actionBar_custom_content">
+
+<div id="rssHoverDiv" class="HoverPanel LeftHoverWidth" style="display: none">
+        <ul id="3_FeedsPanel" class="RssFeedsPanel">
+            <li>
+                <a id="ProjectRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss" class="ArrowSmall NoUnderline">All Project Updates</a>
+            </li>
+            
+            <li>
+                <a id="DiscussionRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fforum%2fsheetengine" class="ArrowSmall NoUnderline">Discussions</a>
+            </li>
+            
+            <li>
+                <a id="IssueTrackerRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fworkitem%2fsheetengine" class="ArrowSmall NoUnderline">Issue Tracker</a>
+            </li>
+            
+            <li>
+                <a id="ReleasesRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2frelease%2fsheetengine" class="ArrowSmall NoUnderline">Downloads</a>
+            </li>
+            <li>
+                <a id="ReviewsRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2freview%2fsheetengine" class="ArrowSmall NoUnderline">Reviews</a>
+            </li>
+            
+            <li>
+                <a id="SourceControlRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fsourcecontrol%2fsheetengine" class="ArrowSmall NoUnderline">Source Code</a>
+            </li>
+            <li>
+                <a id="WikiRssLink" href="http://sheetengine.codeplex.com/project/feeds/rss?ProjectRSSFeed=codeplex%3a%2f%2fwiki%2fsheetengine" class="ArrowSmall NoUnderline">Wiki &amp; Documentation</a>
+            </li>
+        </ul>
+</div></div>
+
+                    <a href="#" id="actionbar_subscribe" title="Subscribe to project updates in RSS feeds." class="action_bar_item_link">
+                        <img id="img_actionbar_subscribe" class="action_bar_item_image" src="http://download-codeplex.sec.s-msft.com/Images/v21050/actionbar_subscribe.png" style="vertical-align: middle" />
+                        Subscribe
+                    </a>
+
+                </li>
+
+            
+        </ul>
+    </div>
+</div>
+     </td>
+
+        
+
+    </div>
+    
+    
+<div id="discussionList" class="top_border">
+    <div id="left_column">
+        <script type="text/javascript" language="javascript">
+
+            $(function() {
+                $('.ThreadContent').width($('.ThreadOuterFrame').width()-$('.ThreadInfoBox').width()-12);
+            });
+
+        </script>
+
+        
+                    <div id="discussion_row_container_0">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="3/10/2015 12:37:49 PM" LocalTimeTicks="1426016269">Mar 10, 2015</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="3/10/2015 12:37:49 PM" LocalTimeTicks="1426016269">12:37 PM</span><br />(1 post)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/585884">Setting an object&#39;s transparency</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/585884#post1362108">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/riotgrrrl">riotgrrrl</a></span> wrote: Hello,
+
+In the game I&#39;m working on, I want to have a building appe...</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_1">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="2/10/2015 2:48:46 PM" LocalTimeTicks="1423608526">Feb 10, 2015</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="2/10/2015 2:48:46 PM" LocalTimeTicks="1423608526">2:48 PM</span><br />(8 posts)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/438198">How to manipulate z-ordering of sheets</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/438198#post1021884">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Lanternet">Lanternet</a></span> wrote: Hi,
+
+I have a problem, I&#39;m manipulating the perspective&#39;s features...</p>
+                            
+			    	            <p></p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/438198#post1350648">latest post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/dobsonl">dobsonl</a></span> wrote: I&#39;ve checked it out, it&#39;s pretty cool! I like it :) Nice work!</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_2">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="1/27/2015 7:47:18 PM" LocalTimeTicks="1422416838">Jan 27, 2015</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="1/27/2015 7:47:18 PM" LocalTimeTicks="1422416838">7:47 PM</span><br />(2 posts)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/578704">Sheetengine dead?</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/578704#post1346373">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/chearner">chearner</a></span> wrote: The last posts to this forum are from September 2014, and the last ...</p>
+                            
+			    	            <p></p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/578704#post1346427">latest post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/dobsonl">dobsonl</a></span> wrote: Sorry, I&#39;ve been busy lately with other stuff and couldn&#39;t get a ne...</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_3">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="9/15/2014 4:41:27 PM" LocalTimeTicks="1410824487">Sep 15, 2014</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="9/15/2014 4:41:27 PM" LocalTimeTicks="1410824487">4:41 PM</span><br />(7 posts)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/567402">manipulate xyz and size of simple Sheets</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/567402#post1304608">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Mishap">Mishap</a></span> wrote: Hi,
+
+I&#39;ve read that after placing a normal sheet it becomes a stat...</p>
+                            
+			    	            <p></p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/567402#post1304886">latest post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Mishap">Mishap</a></span> wrote: I see,  ok, i will try to handle the zoom issue - this is the bigge...</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_4">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="9/5/2014 12:47:54 PM" LocalTimeTicks="1409946474">Sep 5, 2014</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="9/5/2014 12:47:54 PM" LocalTimeTicks="1409946474">12:47 PM</span><br />(2 posts)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/565561">move object with drag</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/565561#post1299654">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Pirosoftit">Pirosoftit</a></span> wrote: Hi, my question: is it possible drag the objects with mouse? i can&#39;...</p>
+                            
+			    	            <p></p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/565561#post1299664">latest post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/dobsonl">dobsonl</a></span> wrote: Hi, you can download examples from the download page. You can also ...</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_5">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="9/4/2014 6:48:06 AM" LocalTimeTicks="1409838486">Sep 4, 2014</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="9/4/2014 6:48:06 AM" LocalTimeTicks="1409838486">6:48 AM</span><br />(8 posts)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/542155">How to: Move SheetObject textured</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/542155#post1233726">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Keten">Keten</a></span> wrote: Hi!
+Thanks for this incredible engine... Here my question:
+
+1) I ...</p>
+                            
+			    	            <p></p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/542155#post1298853">latest post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/RohanDeshpande">RohanDeshpande</a></span> wrote: Keten, Levente has given me a solution that might help your problem...</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_6">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="5/16/2014 11:07:08 PM" LocalTimeTicks="1400306828">May 16, 2014</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="5/16/2014 11:07:08 PM" LocalTimeTicks="1400306828">11:07 PM</span><br />(3 posts)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/542326">How to: Basesheet hover</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/542326#post1234384">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Keten">Keten</a></span> wrote: Hi!
+
+My question is about hover event for basesheets (like in cros...</p>
+                            
+			    	            <p></p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/542326#post1246368">latest post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Casero">Casero</a></span> wrote: I post my solution here https://sheetengine.codeplex.com/discussion...</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_7">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="5/16/2014 11:05:50 PM" LocalTimeTicks="1400306750">May 16, 2014</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="5/16/2014 11:05:50 PM" LocalTimeTicks="1400306750">11:05 PM</span><br />(8 posts)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/473442">crossyards code</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/473442#post1135295">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Casero">Casero</a></span> wrote: I would like to use some features like zoom on mousewheel, move by ...</p>
+                            
+			    	            <p></p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/473442#post1246367">latest post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Casero">Casero</a></span> wrote: My hover around basesheet look like this: CLICK on position x,y -&gt; ...</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_8">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="4/29/2014 9:48:34 PM" LocalTimeTicks="1398833314">Apr 29, 2014</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="4/29/2014 9:48:34 PM" LocalTimeTicks="1398833314">9:48 PM</span><br />(1 post)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/543801">Tiles with an angle of 30 degree</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/543801#post1239555">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Misha_col">Misha_col</a></span> wrote: Hi,
+
+I&#39;m trying to create a game and would really like to use shee...</p>
+                            
+			            </div>
+                    </div>
+                
+                    <div id="discussion_row_container_9">
+			            <div class="post_info">
+				            <p class="post_date"><span id="Date" class="smartDate dateOnly" title="4/17/2014 9:13:11 AM" LocalTimeTicks="1397751191">Apr 17, 2014</span></p>
+				            <p class="post_time"><span id="Time" class="smartDate timeOnly" title="4/17/2014 9:13:11 AM" LocalTimeTicks="1397751191">9:13 AM</span><br />(19 posts)</p>
+			            </div>
+			
+			            <div class="post_content">
+                            
+				            <h3><a href="http://sheetengine.codeplex.com/discussions/430723">How can I use a sheet as a basesheet?</a></h3>
+				            <p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/430723#post991522">first post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/Belohlavek">Belohlavek</a></span> wrote:  In order to create more complex maps, i&#39;d be nice to know if I can...</p>
+                            
+			    	            <p></p><span class="bold_post"><a href="http://sheetengine.codeplex.com/discussions/430723#post1234967">latest post:</a></span> <span class="author"><a href="http://www.codeplex.com/site/users/view/RohanDeshpande">RohanDeshpande</a></span> wrote: Nice one Keten.  I&#39;ve actually modded SheetEngine slightly to remov...</p>
+                            
+			            </div>
+                    </div>
+                
+
+		    <div class="clear"></div>
+    
+    <ul id="discussion_pagination">
+        <li><span class="Selected">1</span>-<span class="Selected">10</span> of <span class="Selected">44</span> discussions</li><ul class="pagination_pages">
+	<li>Previous</li><li><span class="Selected">1</span></li><li><a onclick="CodePlexPaging.gotoPage(&#39;http://sheetengine.codeplex.com/discussions&#39;, 1);return false;" href="#">2</a></li><li><a onclick="CodePlexPaging.gotoPage(&#39;http://sheetengine.codeplex.com/discussions&#39;, 2);return false;" href="#">3</a></li><li><a onclick="CodePlexPaging.gotoPage(&#39;http://sheetengine.codeplex.com/discussions&#39;, 3);return false;" href="#">4</a></li><li><a onclick="CodePlexPaging.gotoPage(&#39;http://sheetengine.codeplex.com/discussions&#39;, 4);return false;" href="#">5</a></li><li class="last"><a href="#" onclick="CodePlexPaging.gotoPage(&#39;http://sheetengine.codeplex.com/discussions&#39;, 1);return false;">Next</a></li>
+</ul>
+        <ul class="discussion_right">
+	<li>Showing</li><li><span class="Selected">10</span></li><li><a href="#" onclick="CodePlexPaging.gotoPageSize(&#39;http://sheetengine.codeplex.com/discussions&#39;, 25);return false;">25</a></li><li><a href="#" onclick="CodePlexPaging.gotoPageSize(&#39;http://sheetengine.codeplex.com/discussions&#39;, 50);return false;">50</a></li><li>discussions</li>
+</ul><a href="http://sheetengine.codeplex.com/discussions?size=2147483647" class="Link" style="display: none;">View All</a>
+    </ul>
+
+    </div>
+</div>
+
+        
+<div id="right_sidebar_noborder">
+    <div id="configure_view">
+    	<h2>configure view</h2>
+
+        <input MaxLength="500" id="discussion_search" name="discussion_search" title="Search Discussions" type="text" value="" />
+        <a id="discussion_search_button" class="discussion_magnify" href="#" title="Search Discussions"></a>
+
+        <script type="text/javascript" language="javascript">
+
+            $(function () {
+
+                $('#discussion_search_button').click(search);
+
+                $('#discussion_search').keydown(function (e) {
+                    if ($keyCode(e) == 13) return search();
+                });
+
+                function search() {
+                    CodePlex.UpdateProgress.displayPanelAndDisableControls('Loading...');
+                    window.location = 'http://sheetengine.codeplex.com/discussions' + '?searchText=' + $('#discussion_search').val();
+                    return false;
+                }
+            });
+
+            function getSearchParams() {
+                var params = "?searchText=" + $('#discussion_search').val() + '&page=0&size=10';
+                return params;
+            }
+
+            CodePlexPaging.initialize('getSearchParams');
+
+        </script>
+
+		<div class="clear"></div>
+
+            <p>Filter</p>
+       
+        <p>
+             <input id="showUnansweredThreadsOnly" name="showUnansweredThreadsOnly" type="checkbox" value="true" /><label for="showUnansweredThreadsOnly">Unanswered only</label><input name="showUnansweredThreadsOnly" type="hidden" value="false" />
+                <img src='http://download-codeplex.sec.s-msft.com/Images/v21050/HelpIcon.png' style="padding-left:.1em;vertical-align: bottom"
+                    alt="Show only discussions that don't have a post marked as an answer." 
+                    title="Show only discussions that don't have a post marked as an answer." />
+                
+                <script type="text/javascript">
+                    $(function () {
+                        $('#showUnansweredThreadsOnly').click(function (x) {
+                            CodePlex.UpdateProgress.show();
+                            window.location = 'http://sheetengine.codeplex.com/discussions?showUnansweredThreadsOnly=' + $('#showUnansweredThreadsOnly').is(':checked');
+                        });
+                    });
+                </script>
+        </p>
+
+		<ul class="configure_links">
+            
+				<li class="configure_sort">topic:</li>
+				<ul class="right">
+                    
+                        <li>All Topics
+    </li>
+                    
+                        <li>
+    <a id="CoordinatorTopicFilterLink" href="http://sheetengine.codeplex.com/discussions/topics/general">General</a>
+</li>
+                    
+				</ul>
+                <script type="text/javascript" language="javascript">
+                    $(function () {
+                        $('#CoordinatorTopics a').click(function (x) {
+                            CodePlex.UpdateProgress.show();
+                        });
+                    });
+                </script>
+            
+		</ul>
+        <div class="clear"></div>
+	</div>
+
+    
+<script type="text/javascript">
+    function saveSubscriptionDataDirectly(type) {
+        return saveSubscriptionDataCore(type, false);
+    }
+
+    function saveSubscriptionData() {
+        var callingComponent = $('#subscriptionSettings #callingComponent').val();
+        closeSubscriptionDialog();
+
+        var type = $('input[name=EmailSubscriptionTypeList]:checked').val();
+        if (type === '')
+            return false;
+        var removeIndividual = $('input[name=StopNotificationsCheckBox]:checked').val();
+        if (removeIndividual === undefined)
+            removeIndividual = false;
+        $('#subscriptionSettings').remove();
+        return saveSubscriptionDataCore(type, removeIndividual, callingComponent);
+    }
+
+    function saveSubscriptionDataCore(type, removeIndividual, callingComponent) {
+
+        var isSubscribed = $('#SubscribeCheckBox').is(':checked') && $('#SubscribeCheckBox').is(':enabled');
+        CodePlex.UpdateProgress.show();
+        $('#subscriptionContent').load('http://sheetengine.codeplex.com/subscriptions/Thread/save',
+                                       { isIndividualSubscribed: isSubscribed, deliveryStatus: type, displayType: 'Full', removeIndividualSubscriptions: removeIndividual },
+                                       function () {
+                                           CodePlex.UpdateProgress.hide();
+                                           if (callingComponent) {
+                                               $('#actionBar_placeholder').load('http://sheetengine.codeplex.com/workitem/ActionBar',
+                                                   { activeView: 'AdvancedView' });
+                                           }
+                                       });
+        if (type === '1' || type === '2') {
+            $('#unsubscribeSection').show();
+        }
+        else {
+            $('#unsubscribeSection').hide();
+            $('#stopNotificationsDiv').hide();
+        }
+
+        return false;
+    }
+
+    function saveIndividualSubscription(type) {
+
+        CodePlex.UpdateProgress.show();
+        $('#subscriptionContent').load('',
+                                       { deliveryStatus: type },
+                                       function () { CodePlex.UpdateProgress.hide(); });
+        suppressUnsavedData();
+        
+        return false;
+    }
+
+    function showSubscriptionSelection() {
+        OpenDialog('#subscriptionSettings', true, '37em');
+        
+        // Remove unsaved data prompt from subscription items
+        // this should not make the page dirty.
+        $('input, textarea, select', '#subscriptionSettings').unbind("change");
+
+        return false;
+    }
+
+    function closeSubscriptionDialog() {
+        OpenDialog('#subscriptionSettings', false);
+        adjustEmailLinkPlacement();
+        adjustSubscriptionLinkPlacement();
+        return false;
+    }
+    
+    function adjustSubscriptionLinkPlacement() {
+        var $changeSubLink = $("#ShowSubscriptionSelection"),
+            $changeSubPlaceHolder = $("#ShowSubscriptionSelectionPlaceHolder"),
+            currentOffsetLeft,
+            offsetLeft,
+            currentOffsetTop,
+            offsetTop,
+            ieOffset = $.browser.msie ? 1 : 0,
+            lineHeight = parseInt($changeSubPlaceHolder.css('line-height'));
+        
+        if ($changeSubLink.length != 0 && $changeSubPlaceHolder.length != 0) {
+            currentOffsetLeft = parseInt($changeSubLink.css("left")),
+            offsetLeft = $changeSubPlaceHolder.offset().left - $changeSubLink.offset().left + 1, // the +1 just centers the text between the parens more evenly
+            
+            currentOffsetTop = parseInt($changeSubLink.css("top")),
+            offsetTop = $changeSubPlaceHolder.offset().top - $changeSubLink.offset().top - lineHeight + 5, // the -5 just centers the text between the parens more evenly
+
+            $changeSubLink.css("left", currentOffsetLeft + offsetLeft + ieOffset);
+            $changeSubLink.css("top", currentOffsetTop + offsetTop + ieOffset);
+        }
+    }
+
+    function adjustEmailLinkPlacement() {
+        var $changeEmailLink = $("#ChangeProfileLink"),
+            $changeEmailPlaceHolder = $("#ChangeProfileLinkPlaceHolder"),
+            currentOffsetLeft,
+            offsetLeft,
+            currentOffsetTop,
+            offsetTop,
+            ieOffset = $.browser.msie ? 1 : 0,
+            lineHeight = parseInt($changeEmailPlaceHolder.css('line-height'));
+
+        if ($changeEmailLink.length != 0 && $changeEmailPlaceHolder.length != 0) {
+            currentOffsetLeft = parseInt($changeEmailLink.css("left")),
+            offsetLeft = $changeEmailPlaceHolder.offset().left - $changeEmailLink.offset().left + 1, // the +1 just centers the text between the parens more evenly
+            
+            currentOffsetTop = parseInt($changeEmailLink.css("top")),
+            offsetTop = $changeEmailPlaceHolder.offset().top - $changeEmailLink.offset().top - lineHeight + 5, // the -5 just centers the text between the parens more evenly
+
+            $changeEmailLink.css("left", currentOffsetLeft + offsetLeft + ieOffset);
+            $changeEmailLink.css("top", currentOffsetTop + offsetTop + ieOffset);
+        }
+    }
+    
+    function showStopNotifications() {
+        $('#stopNotificationsDiv').hide();
+        $('#StopNotificationsCheckBox').attr('checked', false);
+    }
+
+    var currentToolTipHeight = null;
+
+    function showUnsubscribeToolTip() {
+      if (currentToolTipHeight == null) { currentToolTipHeight = $('#unsubscribeToolTip').height()+30 };
+      var toolTip = $('#unsubscribeToolTipImage');
+      var msg = $('#unsubscribeToolTip')[0];
+
+      $('[id=unsubscribeToolTip]').dialog('destroy').remove();
+      $(msg).dialog({
+        height: currentToolTipHeight, 
+        width: 275, 
+        position: [toolTip.offset().left-$(window).scrollLeft()+10, toolTip.offset().top-$(window).scrollTop()+10],
+        dialogClass: 'tooltip',
+        open: function() { $('#unsubscribeToolTip').show(); } 
+      });
+
+    }
+
+    function hideUnsubscribeToolTip() {
+        $('[id=unsubscribeToolTip]').dialog('destroy');
+    }
+</script>
+
+<div id="subscriptionContent">
+    
+	<p><div class="email_icon">e-mail icon</div>Discussion notifications</p>
+	<p><a id="subscriptionSignIn" href="https://www.codeplex.com/site/login?RedirectUrl=http%3a%2f%2fsheetengine.codeplex.com%2fdiscussions">Sign in</a> to display notification settings.</p>
+
+<div id="subscriptionSettings" class="modal" style="display:none; width: 250px;">
+    <div class="row">
+        <h2>Discussion Notifications <a href="javascript:return false;" class="close">X</a></h2>
+    </div>
+    <div class="modal_info">
+        <p>Keep up with what's going on in this project's discussions</p>
+        <div class="ModalDialogContentBody">
+            <div style="margin-top: 2px; margin-bottom: 5px;">
+                Email me 
+                <span id="changeEmailAddressLink">
+                    <a target="_blank"  href="https://www.codeplex.com/site/users/update">
+                        (change e-mail address)
+                    </a>
+                </span>
+            </div>
+            <ul class="button_wrap">
+                <li>
+                    <input type="radio" id="EmailSubscription_EachNewIssue" name="EmailSubscriptionTypeList" value="1" onclick="$('#stopNotificationsDiv').hide()"  />
+                    <label for="EmailSubscription_EachNewIssue">Each new discussion or response as they come in</label>
+                </li>
+                <li>
+                    <input type="radio" id="EmailSubscription_DailyDigest" name="EmailSubscriptionTypeList" value="2" onclick="$('#stopNotificationsDiv').hide()"  />
+                    <label for="EmailSubscription_DailyDigest">A daily digest (summary) of new discussions and responses</label>
+                </li>
+                <li id="unsubscribeSection" style="display:none;"><input type="radio" id="EmailSubscription_Unsubscribe" name="EmailSubscriptionTypeList" value="0" onclick="$('#stopNotificationsDiv').show()" checked="checked" /><label for="EmailSubscription_Unsubscribe">Unsubscribe</label></li>
+            </ul>
+            
+            <div class="ClearBoth"></div>
+            <div id="stopNotificationsDiv" style="display:none;overflow:hidden;margin-top:4px;" class="EmailSubscriptionCheck">
+                <div style="float: left; width:24px;">
+                <input id="StopNotificationsCheckBox" name="StopNotificationsCheckBox" type="checkbox" value="true" /><input name="StopNotificationsCheckBox" type="hidden" value="false" />
+                </div>
+                <div style="float: left;">
+                <label for="StopNotificationsCheckBox">
+                    Also stop notifications for <i>individual</i> issue(s) I subscribed to.
+                    <img id="unsubscribeToolTipImage" src="http://download-codeplex.sec.s-msft.com/Images/v21050/helpicon.png" onmouseover="showUnsubscribeToolTip()" onmouseout="hideUnsubscribeToolTip()" />
+                </label>
+                </div>
+                <div id="unsubscribeToolTip" style="display: none;">
+                Besides your subscription to all discussions, you have also chosen to be notified for <b>0</b> individual discussions, including:<ul></ul> Check the box if you wish to stop receiving emails about these <b>0</b> discussions as well.
+                </div>
+            </div>
+        </div>
+        <div class="modal_buttons">
+            <input id="CancelButton" type="button" value="Cancel" class="cancel" onclick="return closeSubscriptionDialog()"/>
+            <input id="SaveButton" type="button" value="Save" class="ok" onclick="saveSubscriptionData();" />
+        </div>
+        <div class="ClearBoth"></div>
+    </div>
+    <input type="hidden" id="callingComponent"/>
+</div>
+
+<input type="hidden" name="SelectedSubscriptionItem" value="0" />
+
+<script>
+    $(document).ready(function () {
+        adjustEmailLinkPlacement();
+        adjustSubscriptionLinkPlacement();
+    });
+</script>
+
+</div>
+</div>
+
+        
+                
+                <div class="clear"></div>
+                
+                <div id="footer">
+                    <div class="row">
+                        <hr />
+                        <ul>
+                            <li>© 2006-2017 Microsoft</li>
+                            <li><a href="http://www.codeplex.com/site/help">Get Help</a></li>
+                            <li><a href="http://sheetengine.codeplex.com/site/legal/privacy">Privacy Statement</a></li>
+                            <li><a href="http://www.codeplex.com/site/legal/terms">Terms of Use</a></li>
+                            <li><a href="http://www.codeplex.com/site/legal/conduct">Code of Conduct</a></li>
+                            <li><a href="http://developermedia.com/" target="_blank">Advertise With Us</a></li>
+                            <li>Version 3.28.2017.21050</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </body>
+
+
+<!-- Mirrored from sheetengine.codeplex.com/discussions by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Apr 2017 15:45:09 GMT -->
+</html>

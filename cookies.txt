@@ -1,0 +1,9 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+.codeplex.com	TRUE	/	FALSE	1999999999	ASP.NET_SessionId	pvapjd5wqpiwlmbq0kkxjwgr
+.codeplex.com	TRUE	/	FALSE	1999999999	__RequestVerificationToken	J4N5LRt9xzfk9NyKIr4R5xrAGzgpcqqejICocSYVpqY7VROExKmCQX0BnV_E34A5mScTGm9JPLXZkuKx67dXZ0jYL4nrtuAdODslkuV1NqSuopb8J6jouIgtHvtzsqp6zJXfzg2
+.codeplex.com	TRUE	/	FALSE	1999999999	__RequestVerificationToken229f23d1f-fb15-4892-9229-a467138d0d1b	J4N5LRt9xzfk9NyKIr4R5xrAGzgpcqqejICocSYVpqY7VROExKmCQX0BnV_E34A5mScTGm9JPLXZkuKx67dXZ0jYL4nrtuAdODslkuV1NqSuopb8J6jouIgtHvtzsqp6zJXfzg2
+.codeplex.com	TRUE	/	FALSE	1999999999	CPXINIT	4/26/2017 8:44:54 AM
+.codeplex.com	TRUE	/	FALSE	1999999999	sheetengine	Branch=master&IsProject=1
+.codeplex.com	TRUE	/	FALSE	1999999999	CodePlexSiteCookie	statsRangeType=Period&statsRange=Days30&statsMonth=4&statsWeekStart=26&statsYear=2017
+
